@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pos Graduação</title>
+  <style>
+    /* CSS */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f3f4f6;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    header {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      background-color: #0073e6;
+      color: white;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 1.8em;
+    }
+
+    #menuButton {
+      font-size: 1.5em;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      display: none;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 10px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+    }
+
+    nav ul li a:hover {
+      background-color: #005bb5;
+    }
+
+    main {
+      width: 100%;
+      max-width: 800px;
+      margin-top: 20px;
+    }
+
+    .courses {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .course-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .course-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .course-card a {
+      text-decoration: none;
+      color: #0073e6;
+    }
+
+    .course-card h2 {
+      font-size: 1.2em;
+      color: #333;
+    }
+
+    /* Estilo para cursos com certificado */
+    .certificado {
+      background-color: #229A00; /* Verde claro */
+    }
+
+    /* Estilo para cursos com certificado */
+    .boleto {
+      background-color: #FFFF00; /* amarelo */
+    }
+
+    /* Estilo para cursos com certificado */
+    .cursando {
+      background-color: #90D5FF; /* amarelo */
+    }
+
+    /* Responsivo para mobile */
+    @media (max-width: 600px) {
+      #menuButton {
+        display: block;
+      }
+      nav ul {
+        flex-direction: column;
+        display: none;
+      }
+      nav ul.show {
+        display: flex;
+      }
+      .courses {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>PÓS-GRADUAÇÃO</h1>
+  </header>
+
+  <main id="cursos">
+    <section class="courses">
+
+      <div class="course-card certificado">
+        <a href="https://kroton.platosedu.io/lms/m/aluno/index/3243688" target="_blank">
+          <h2>CERTIFICADO - Liderança e Gestão de Equipes de Alta Performance ✓ </h2>
+        </a>
+      </div>
+
+      <div class="course-card certificado">
+        <a href="https://kroton.platosedu.io/lms/m/aluno/index/3226961" target="_blank">
+          <h2>CERTIFICADO - Gestão e Governança de Tecnologia da Informação ✓ </h2>
+        </a>
+      </div>
+        
+      <div class="course-card certificado">
+        <a href="https://kroton.platosedu.io/lms/m/aluno/index/3325325" target="_blank">
+          <h2>CERTIFICADO - Ciência de Dados e Inteligência Artificial ✓ </h2>
+        </a>
+      </div>
+
+      <div class="course-card boleto">
+        <a href="https://kroton.platosedu.io/lms/m/aluno/index/3303254" target="_blank">
+          <h2>CERTIFICADO - Inteligência Artificial e Machine Learning ✓ (Boletos)</h2>
+        </a>
+      </div>
+
+      <div class="course-card cursando">
+        <a href="https://pucprdigital.grupoa.education/plataforma/auth/signin" target="_blank">
+          <h2>PUC PR - IA e Negócios: Estratégia, Inovação e Resultados</h2>
+        </a>
+      </div>
+
+      <div class="course-card cursando">
+        <a href="https://infoprod.platosedu.io/v2/lms/login" target="_blank">
+          <h2>Anhanguera - Engenharia de Dados e Inteligência Artificial</h2>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // JavaScript para o menu responsivo
+    function toggleMenu() {
+      const menu = document.querySelector('nav ul');
+      menu.classList.toggle('show');
+    }
+  </script>
+
+</body>
+</html>
