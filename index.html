@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pos Graduação</title>
+  <title>Pós-Graduação</title>
   <style>
-    /* CSS */
     * {
       margin: 0;
       padding: 0;
@@ -36,19 +35,26 @@
       margin-bottom: 20px;
     }
 
-    header.main-header h1 {
-      font-size: 1.8em;
+    .filter-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
     }
 
-    header.section-header {
-      width: 100%;
-      max-width: 800px;
-      margin: 40px 0 20px 0;
-      padding-left: 10px;
-      border-left: 5px solid #0073e6;
-      color: #0073e6;
-      font-weight: bold;
-      font-size: 1.5em;
+    .filter-buttons button {
+      background-color: #0073e6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .filter-buttons button:hover {
+      background-color: #005bb5;
     }
 
     .courses {
@@ -57,6 +63,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
+      position: relative;
     }
 
     .course-card {
@@ -82,30 +89,41 @@
       color: #333;
     }
 
-    /* Estilo para cursos com certificado */
     .certificado {
-      background-color: #229A00; /* Verde claro */
+      background-color: #229A00;
       color: white;
     }
 
-    /* Estilo para cursos com boleto */
     .boleto {
-      background-color: #FFFF00; /* amarelo */
+      background-color: #FFFF00;
     }
 
-    /* Estilo para cursos cursando */
     .cursando {
-      background-color: #90D5FF; /* azul claro */
+      background-color: #90D5FF;
     }
 
-    /* Responsivo para mobile */
+    .projeto {
+      background-color: #D3B3FF;
+      color: white;
+    }
+
+    /* Estilo do título "PROJETOS" para ficar igual ao header */
+    .projetos-titulo {
+      grid-column: 1 / -1;
+      font-size: 1.4em;
+      color: white;               /* texto branco */
+      background-color: #0073e6; /* fundo azul */
+      margin-top: 20px;
+      border-left: 5px solid #005bb5; /* borda esquerda azul escuro */
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 8px;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
     @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-      header.main-header, header.section-header, .courses {
-        max-width: 100%;
-      }
       .courses {
         grid-template-columns: 1fr;
       }
@@ -113,106 +131,117 @@
   </style>
 </head>
 <body>
-
-  <!-- Título principal -->
   <header class="main-header">
-    <h1>PÓS-GRADUAÇÃO</h1>
+    <h1>PÓS-GRADUAÇÃO & PROJETOS</h1>
   </header>
 
-  <!-- Seção Pós-Graduação -->
-  <section class="courses">
+  <div class="filter-buttons">
+    <button onclick="filtrar('todos')">Todos</button>
+    <button onclick="filtrar('certificado')">Concluídos</button>
+    <button onclick="filtrar('boleto')">Boletos</button>
+    <button onclick="filtrar('cursando')">Cursando</button>
+    <button onclick="filtrar('projeto')">Projetos</button>
+  </div>
+
+  <section class="courses" id="courseContainer">
     <div class="course-card certificado">
       <a href="https://kroton.platosedu.io/lms/m/aluno/index/3243688" target="_blank">
         <h2>Liderança e Gestão de Equipes de Alta Performance ✓</h2>
       </a>
     </div>
-
     <div class="course-card certificado">
       <a href="https://kroton.platosedu.io/lms/m/aluno/index/3226961" target="_blank">
         <h2>Gestão e Governança de Tecnologia da Informação ✓</h2>
       </a>
     </div>
-      
     <div class="course-card certificado">
       <a href="https://kroton.platosedu.io/lms/m/aluno/index/3325325" target="_blank">
         <h2>Ciência de Dados e Inteligência Artificial ✓</h2>
       </a>
     </div>
-
     <div class="course-card boleto">
       <a href="https://kroton.platosedu.io/lms/m/aluno/index/3303254" target="_blank">
         <h2>Inteligência Artificial e Machine Learning ✓ (Boletos)</h2>
       </a>
     </div>
-
     <div class="course-card cursando">
       <a href="https://pucprdigital.grupoa.education/plataforma/auth/signin" target="_blank">
         <h2>PUC PR - IA e Negócios: Estratégia, Inovação e Resultados</h2>
       </a>
     </div>
-
     <div class="course-card cursando">
       <a href="https://infoprod.platosedu.io/v2/lms/login" target="_blank">
         <h2>Anhanguera - Engenharia de Dados e Inteligência Artificial</h2>
       </a>
     </div>
-
     <div class="course-card cursando">
       <a href="https://accounts.fluency.io/signin" target="_blank">
-        <h2>Inglês - fluency Academy</h2>
+        <h2>Inglês - Fluency Academy</h2>
       </a>
     </div>
-
     <div class="course-card cursando">
       <a href="https://web.dio.me/home" target="_blank">
         <h2>DIO.ME</h2>
       </a>
     </div>
-  </section>
 
-
-
-<br>
- <!-- Título Projetos -->
-   <header class="main-header">
-     <h1>PROJETOS</h1>
-   </header>
-
-  <section class="courses">
-    <div class="course-card cursando">
+    <!-- PROJETOS -->
+    <div class="course-card projeto">
       <a href="https://www.pucminas.br/Pos-Graduacao/IEC/Cursos/Paginas/MobileEngineering_EAD_Especializacao%20e%20Master.aspx?pageID=5343&moda=5&polo=43&curso=1053&situ=1" target="_blank">
         <h2>PUC MINAS - Desenvolvimento Mobile</h2>
       </a>
     </div>
-
-
-    <div class="course-card cursando">
-      <a href="https://pay.hotmart.com/R98854503I?checkoutMode=10&utm_medium=paid&utm_source=ig&utm_id=120224608746100075&utm_content=120224608823000075&utm_term=120224608746140075&utm_campaign=120224608746100075&fbclid=PAQ0xDSwKbf1pleHRuA2FlbQEwAGFkaWQBqx_Mv_YoqwGnpUBoBpRB_XDnoAU3b0eIRqwXA-me3mI_1zlp0vWNWfO3bJTv06Qfe0YEpPQ_aem_FYZjddjJjxtWfYpZwguCPQ&bid=1747886091915" target="_blank">
-        <h2>prompts para IA</h2>
+    <div class="course-card projeto">
+      <a href="https://pay.hotmart.com/R98854503I" target="_blank">
+        <h2>Prompts para IA</h2>
       </a>
     </div>
-    
-    <div class="course-card cursando">
+    <div class="course-card projeto">
       <a href="http://zucoescrita.com" target="_blank">
-        <h2>Cursos de Escrita Cientifica</h2>
+        <h2>Cursos de Escrita Científica</h2>
       </a>
     </div>
-
-    <div class="course-card cursando">
-      <a href="https://ppgcc.inf.ufg.br/n/192120-abertas-as-inscricoes-para-a-selecao-de-alunos-especiais-2025-2-ppgcc-inf" target="_blank">
-        <h2>UFG MESTRADO - 01/07/2025</h2>
+    <div class="course-card projeto">
+      <a href="https://ppgcc.inf.ufg.br/n/192120" target="_blank">
+        <h2>UFG Mestrado - 01/07/2025</h2>
       </a>
     </div>
-
   </section>
 
   <script>
-    // JavaScript para o menu responsivo (se precisar)
-    function toggleMenu() {
-      const menu = document.querySelector('nav ul');
-      menu.classList.toggle('show');
-    }
-  </script>
+    function filtrar(classe) {
+      const cards = document.querySelectorAll(".course-card");
+      const container = document.getElementById("courseContainer");
 
+      const existingTitle = document.getElementById("titulo-projetos");
+      if (existingTitle) existingTitle.remove();
+
+      cards.forEach(card => card.style.display = "none");
+
+      if (classe === "todos") {
+        let inserted = false;
+        cards.forEach(card => {
+          card.style.display = "block";
+          if (card.classList.contains("projeto") && !inserted) {
+            const titulo = document.createElement("div");
+            titulo.className = "projetos-titulo";
+            titulo.id = "titulo-projetos";
+            titulo.textContent = "PROJETOS";
+            container.insertBefore(titulo, card);
+            inserted = true;
+          }
+        });
+      } else {
+        cards.forEach(card => {
+          if (card.classList.contains(classe)) {
+            card.style.display = "block";
+          }
+        });
+      }
+    }
+
+    // Mostra todos ao carregar a página
+    filtrar('todos');
+  </script>
 </body>
 </html>
