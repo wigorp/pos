@@ -15,15 +15,15 @@
     body {
       background-color: #f3f4f6;
       color: #333;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px;
     }
 
     header.main-header {
       width: 100%;
-      max-width: 800px;
+      max-width: 1000px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -35,14 +35,22 @@
       margin-bottom: 20px;
     }
 
+    /* Container geral para filtro + cursos */
+    .main-content {
+      display: flex;
+      max-width: 1000px;
+      width: 100%;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    /* Botões de filtro - coluna esquerda */
     .filter-buttons {
       display: flex;
-      flex-direction: column; /* botões um abaixo do outro */
-      justify-content: center;
+      flex-direction: column;
       gap: 10px;
-      margin-bottom: 20px;
-      align-items: flex-start; /* alinhado à esquerda */
-      width: 150px; /* define largura para os botões ocuparem */
+      width: 180px;
+      align-items: flex-start;
     }
 
     .filter-buttons button {
@@ -53,17 +61,18 @@
       border-radius: 5px;
       cursor: pointer;
       transition: background 0.3s;
-      width: 100%; /* botões ocupam toda a largura do container */
+      width: 100%;
       box-sizing: border-box;
+      font-size: 1em;
     }
 
     .filter-buttons button:hover {
       background-color: #005bb5;
     }
 
+    /* Área dos cursos - direita */
     .courses {
-      width: 100%;
-      max-width: 800px;
+      flex: 1;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
@@ -127,7 +136,21 @@
       text-align: center;
     }
 
+    /* RESPONSIVO */
     @media (max-width: 600px) {
+      .main-content {
+        flex-direction: column;
+      }
+      .filter-buttons {
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+      }
+      .filter-buttons button {
+        width: auto;
+        flex: 1;
+        max-width: 150px;
+      }
       .courses {
         grid-template-columns: 1fr;
       }
@@ -139,78 +162,80 @@
     <h1>PÓS-GRADUAÇÃO</h1>
   </header>
 
-  <div class="filter-buttons">
-    <button onclick="filtrar('todos')">Todos</button>
-    <button onclick="filtrar('certificado')">Concluído</button>
-    <button onclick="filtrar('boleto')">Boleto</button>
-    <button onclick="filtrar('cursando')">Cursando</button>
-    <button onclick="filtrar('projeto')">Projeto</button>
+  <div class="main-content">
+    <div class="filter-buttons">
+      <button onclick="filtrar('todos')">Todos</button>
+      <button onclick="filtrar('certificado')">Concluído</button>
+      <button onclick="filtrar('boleto')">Boleto</button>
+      <button onclick="filtrar('cursando')">Cursando</button>
+      <button onclick="filtrar('projeto')">Projeto</button>
+    </div>
+
+    <section class="courses" id="courseContainer">
+      <div class="course-card certificado">
+        <a href="https://kroton.platosedu.io/lms/m/aluno/index/3243688" target="_blank">
+          <h2>Liderança e Gestão de Equipes de Alta Performance ✓</h2>
+        </a>
+      </div>
+      <div class="course-card certificado">
+        <a href="https://kroton.platosedu.io/lms/m/aluno/index/3226961" target="_blank">
+          <h2>Gestão e Governança de Tecnologia da Informação ✓</h2>
+        </a>
+      </div>
+      <div class="course-card certificado">
+        <a href="https://kroton.platosedu.io/lms/m/aluno/index/3325325" target="_blank">
+          <h2>Ciência de Dados e Inteligência Artificial ✓</h2>
+        </a>
+      </div>
+      <div class="course-card boleto">
+        <a href="https://kroton.platosedu.io/lms/m/aluno/index/3303254" target="_blank">
+          <h2>Inteligência Artificial e Machine Learning ✓ (Boletos)</h2>
+        </a>
+      </div>
+      <div class="course-card cursando">
+        <a href="https://pucprdigital.grupoa.education/plataforma/auth/signin" target="_blank">
+          <h2>PUC PR - IA e Negócios: Estratégia, Inovação e Resultados</h2>
+        </a>
+      </div>
+      <div class="course-card cursando">
+        <a href="https://infoprod.platosedu.io/v2/lms/login" target="_blank">
+          <h2>Anhanguera - Engenharia de Dados e Inteligência Artificial</h2>
+        </a>
+      </div>
+      <div class="course-card cursando">
+        <a href="https://accounts.fluency.io/signin" target="_blank">
+          <h2>Inglês - Fluency Academy</h2>
+        </a>
+      </div>
+      <div class="course-card cursando">
+        <a href="https://web.dio.me/home" target="_blank">
+          <h2>DIO.ME</h2>
+        </a>
+      </div>
+
+      <!-- PROJETOS -->
+      <div class="course-card projeto">
+        <a href="https://www.pucminas.br/Pos-Graduacao/IEC/Cursos/Paginas/MobileEngineering_EAD_Especializacao%20e%20Master.aspx?pageID=5343&moda=5&polo=43&curso=1053&situ=1" target="_blank">
+          <h2>PUC MINAS - Desenvolvimento Mobile</h2>
+        </a>
+      </div>
+      <div class="course-card projeto">
+        <a href="https://pay.hotmart.com/R98854503I" target="_blank">
+          <h2>Prompts para IA</h2>
+        </a>
+      </div>
+      <div class="course-card projeto">
+        <a href="http://zucoescrita.com" target="_blank">
+          <h2>Cursos de Escrita Científica</h2>
+        </a>
+      </div>
+      <div class="course-card projeto">
+        <a href="https://ppgcc.inf.ufg.br/n/192120" target="_blank">
+          <h2>UFG Mestrado - 01/07/2025</h2>
+        </a>
+      </div>
+    </section>
   </div>
-
-  <section class="courses" id="courseContainer">
-    <div class="course-card certificado">
-      <a href="https://kroton.platosedu.io/lms/m/aluno/index/3243688" target="_blank">
-        <h2>Liderança e Gestão de Equipes de Alta Performance ✓</h2>
-      </a>
-    </div>
-    <div class="course-card certificado">
-      <a href="https://kroton.platosedu.io/lms/m/aluno/index/3226961" target="_blank">
-        <h2>Gestão e Governança de Tecnologia da Informação ✓</h2>
-      </a>
-    </div>
-    <div class="course-card certificado">
-      <a href="https://kroton.platosedu.io/lms/m/aluno/index/3325325" target="_blank">
-        <h2>Ciência de Dados e Inteligência Artificial ✓</h2>
-      </a>
-    </div>
-    <div class="course-card boleto">
-      <a href="https://kroton.platosedu.io/lms/m/aluno/index/3303254" target="_blank">
-        <h2>Inteligência Artificial e Machine Learning ✓ (Boletos)</h2>
-      </a>
-    </div>
-    <div class="course-card cursando">
-      <a href="https://pucprdigital.grupoa.education/plataforma/auth/signin" target="_blank">
-        <h2>PUC PR - IA e Negócios: Estratégia, Inovação e Resultados</h2>
-      </a>
-    </div>
-    <div class="course-card cursando">
-      <a href="https://infoprod.platosedu.io/v2/lms/login" target="_blank">
-        <h2>Anhanguera - Engenharia de Dados e Inteligência Artificial</h2>
-      </a>
-    </div>
-    <div class="course-card cursando">
-      <a href="https://accounts.fluency.io/signin" target="_blank">
-        <h2>Inglês - Fluency Academy</h2>
-      </a>
-    </div>
-    <div class="course-card cursando">
-      <a href="https://web.dio.me/home" target="_blank">
-        <h2>DIO.ME</h2>
-      </a>
-    </div>
-
-    <!-- PROJETOS -->
-    <div class="course-card projeto">
-      <a href="https://www.pucminas.br/Pos-Graduacao/IEC/Cursos/Paginas/MobileEngineering_EAD_Especializacao%20e%20Master.aspx?pageID=5343&moda=5&polo=43&curso=1053&situ=1" target="_blank">
-        <h2>PUC MINAS - Desenvolvimento Mobile</h2>
-      </a>
-    </div>
-    <div class="course-card projeto">
-      <a href="https://pay.hotmart.com/R98854503I" target="_blank">
-        <h2>Prompts para IA</h2>
-      </a>
-    </div>
-    <div class="course-card projeto">
-      <a href="http://zucoescrita.com" target="_blank">
-        <h2>Cursos de Escrita Científica</h2>
-      </a>
-    </div>
-    <div class="course-card projeto">
-      <a href="https://ppgcc.inf.ufg.br/n/192120" target="_blank">
-        <h2>UFG Mestrado - 01/07/2025</h2>
-      </a>
-    </div>
-  </section>
 
   <script>
     function filtrar(classe) {
