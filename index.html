@@ -37,10 +37,12 @@
 
     .filter-buttons {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column; /* botões um abaixo do outro */
       justify-content: center;
       gap: 10px;
       margin-bottom: 20px;
+      align-items: flex-start; /* alinhado à esquerda */
+      width: 150px; /* define largura para os botões ocuparem */
     }
 
     .filter-buttons button {
@@ -51,6 +53,8 @@
       border-radius: 5px;
       cursor: pointer;
       transition: background 0.3s;
+      width: 100%; /* botões ocupam toda a largura do container */
+      box-sizing: border-box;
     }
 
     .filter-buttons button:hover {
@@ -67,6 +71,7 @@
     }
 
     .course-card {
+      display: none;
       background-color: white;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -107,14 +112,13 @@
       color: white;
     }
 
-    /* Estilo do título "PROJETOS" para ficar igual ao header */
     .projetos-titulo {
       grid-column: 1 / -1;
       font-size: 1.4em;
-      color: white;               /* texto branco */
-      background-color: #0073e6; /* fundo azul */
+      color: white;
+      background-color: #0073e6;
       margin-top: 20px;
-      border-left: 5px solid #005bb5; /* borda esquerda azul escuro */
+      border-left: 5px solid #005bb5;
       padding: 10px 20px;
       font-weight: bold;
       border-radius: 8px;
@@ -137,10 +141,10 @@
 
   <div class="filter-buttons">
     <button onclick="filtrar('todos')">Todos</button>
-    <button onclick="filtrar('certificado')">Concluídos</button>
-    <button onclick="filtrar('boleto')">Boletos</button>
+    <button onclick="filtrar('certificado')">Concluído</button>
+    <button onclick="filtrar('boleto')">Boleto</button>
     <button onclick="filtrar('cursando')">Cursando</button>
-    <button onclick="filtrar('projeto')">Projetos</button>
+    <button onclick="filtrar('projeto')">Projeto</button>
   </div>
 
   <section class="courses" id="courseContainer">
@@ -239,9 +243,6 @@
         });
       }
     }
-
-    // Mostra todos ao carregar a página
-    filtrar('todos');
   </script>
 </body>
 </html>
