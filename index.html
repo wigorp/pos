@@ -1,133 +1,267 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Pós-Graduação</title>
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif; }
-  body { background:#f3f4f6; color:#333; padding:20px; }
-  .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
-  .header h1 { font-size:1.5em; }
-  .main { display:flex; gap:20px; flex-wrap:wrap; }
-  .courses { flex:1; display:grid; grid-template-columns:1fr 1fr; gap:15px; }
-  .course-card { background:#fff; border-radius:8px; padding:15px; box-shadow:0 3px 8px rgba(0,0,0,0.1); }
-  .course-card a { text-decoration:none; color:#0073e6; }
-  .calendar-container { width:350px; padding:10px; border-radius:8px; background:#fff; box-shadow:0 3px 8px rgba(0,0,0,0.1); }
-  .calendar-container h2 { font-size:1.1em; margin-bottom:10px; text-align:center; }
-  .event-form input, .event-form textarea { width:100%; margin-bottom:8px; padding:6px; border-radius:4px; border:1px solid #ccc; }
-  .event-form button { width:100%; padding:8px; background:#0073e6; color:#fff; border:none; border-radius:4px; cursor:pointer; }
-  .event-form button:hover { background:#005bb5; }
-  .event-list { list-style:none; max-height:300px; overflow-y:auto; padding-left:0; }
-  .event-list li { padding:5px; border-bottom:1px solid #eee; font-size:0.9em; }
+* { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; transition: background-color 0.3s, color 0.3s;}
+body { background-color:#f3f4f6; color:#333; padding:20px; display:flex; flex-direction:column; align-items:center; min-height:100vh; transition: background-color 0.3s, color 0.3s;}
+body.dark-mode { background-color:#121212; color:#e0e0e0;}
+header.main-header { width:100%; max-width:1000px; display:flex; justify-content:center; align-items:center; padding:15px; background-color:#0073e6; color:white; border-radius:8px; margin-bottom:20px; position:relative; transition: background-color 0.3s;}
+body.dark-mode header.main-header { background-color:#005bb5; }
+header.main-header h1 { font-size:1.5em; user-select:none; }
+#toggleThemeBtn { position:absolute; right:15px; top:50%; transform:translateY(-50%); background:transparent; border:none; cursor:pointer; color:white; width:28px; height:28px; display:flex; align-items:center; justify-content:center; transition: color 0.3s;}
+#toggleThemeBtn svg { width:24px; height:24px; fill:currentColor;}
+#toggleThemeBtn:hover { color:#cce4ff;}
+body.dark-mode #toggleThemeBtn { color:#80b3ff;}
+body.dark-mode #toggleThemeBtn:hover { color:#aaddff;}
+
+.main-content { display:flex; max-width:1000px; width:100%; gap:20px; align-items:flex-start;}
+.filter-buttons { display:flex; flex-direction:column; gap:10px; width:180px; align-items:flex-start;}
+.filter-buttons button { background-color:#0073e6; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; transition: background 0.3s; width:100%; font-size:1em;}
+.filter-buttons button:hover { background-color:#005bb5;}
+body.dark-mode .filter-buttons button { background-color:#005bb5; color:#cce4ff;}
+body.dark-mode .filter-buttons button:hover { background-color:#003f7f;}
+
+.courses { flex:1; display:grid; grid-template-columns:1fr 1fr; gap:20px; position:relative;}
+.course-card { display:none; background-color:white; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); padding:20px; text-align:center; transition: transform 0.3s ease, background-color 0.3s, color 0.3s;}
+.course-card:hover { transform: translateY(-5px);}
+.course-card a { text-decoration:none; color:#0073e6; transition: color 0.3s;}
+.course-card h2 { font-size:1.2em; color:#333; }
+.certificado { background-color:#229A00; color:white; }
+.boleto { background-color:#FFFF00; color:black; }
+.cursando { background-color:#90D5FF; color:black; }
+.projeto { background-color:#D3B3FF; color:white;}
+body.dark-mode .course-card { background-color:#1e1e1e; box-shadow:0 4px 12px rgba(255 255 255 / 0.1);}
+body.dark-mode .course-card a { color:#80b3ff; }
+body.dark-mode .certificado { background-color:#1a6f00; }
+body.dark-mode .boleto { background-color:#cfcf0a; color:black;}
+body.dark-mode .cursando { background-color:#5a9cd8; color:black;}
+body.dark-mode .projeto { background-color:#6e4dbf; color:white;}
+
+.projetos-titulo { grid-column:1 / -1; font-size:1.4em; color:white; background-color:#0073e6; margin-top:20px; border-left:5px solid #005bb5; padding:10px 20px; font-weight:bold; border-radius:8px; width:100%; text-align:center; transition: background-color 0.3s;}
+body.dark-mode .projetos-titulo { background-color:#005bb5; border-left-color:#003f7f;}
+
+#calendarContainer { width: 300px; margin-bottom: 20px; border:1px solid #ccc; border-radius:8px; padding:10px; background-color:white; overflow:auto; max-height:500px;}
+body.dark-mode #calendarContainer { background-color:#1e1e1e; border-color:#444; color:#e0e0e0;}
+
+@media(max-width:600px){ .main-content{ flex-direction:column;} .filter-buttons{ width:100% !important; align-items:stretch !important;} .filter-buttons button{ width:100% !important;} .courses{ grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>PÓS-GRADUAÇÃO</h1>
+<header class="main-header">
+<h1>PÓS-GRADUAÇÃO</h1>
+<button id="toggleThemeBtn" aria-label="Alternar modo claro/escuro" title="Alternar tema">
+<svg id="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path id="moon" d="M21 12.79A9 9 0 0112.21 3a7 7 0 109.79 9.79z" fill="currentColor"/>
+<circle id="sun" cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2" fill="none" style="display:none"/>
+<g id="sunrays" stroke="currentColor" stroke-width="2" style="display:none">
+<line x1="12" y1="1" x2="12" y2="3"/>
+<line x1="12" y1="21" x2="12" y2="23"/>
+<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+<line x1="1" y1="12" x2="3" y2="12"/>
+<line x1="21" y1="12" x2="23" y2="12"/>
+<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+</g>
+</svg>
+</button>
+</header>
+
+<div class="main-content">
+<div class="filter-buttons">
+<button onclick="filtrar('cursando')">Cursando</button>
+<button onclick="filtrar('projeto')">Projeto</button>
+<button onclick="filtrar('boleto')">Boleto</button>
+<button onclick="filtrar('certificado')">Concluído</button>
+<button onclick="filtrar('todos')">Todos</button>
 </div>
 
-<div class="main">
-  <!-- Matérias -->
-  <div class="courses" id="coursesContainer">
-    <div class="course-card cursando"><a href="https://infoprod.platosedu.io/v2/lms/login" target="_blank">Engenharia de Dados e Inteligência Artificial</a></div>
-    <div class="course-card cursando"><a href="https://pucprdigital.grupoa.education/plataforma/auth/signin" target="_blank">PUC PR - IA e Negócios</a></div>
-    <div class="course-card cursando"><a href="https://salavirtual.pucrs.br/" target="_blank">PUC RS - DS e AI para Logística</a></div>
-    <div class="course-card cursando"><a href="https://accounts.fluency.io/signin" target="_blank">Inglês - Fluency Academy</a></div>
-    <div class="course-card cursando"><a href="https://web.dio.me/home" target="_blank">DIO.ME</a></div>
-    <!-- Novas pós-graduações -->
-    <div class="course-card cursando"><a href="https://kroton.platosedu.io/v2/lms/aluno/disciplina/3828409" target="_blank">Anhanguera - Tecnologia da Informação Aplicada à Logística</a></div>
-    <div class="course-card cursando"><a href="https://kroton.platosedu.io/v2/lms/aluno/disciplina/38252526" target="_blank">Anhanguera - MBA EM GESTÃO ÁGIL</a></div>
-  </div>
-
-  <!-- Calendário e formulário -->
-  <div class="calendar-container">
-    <h2>Calendário</h2>
-    <form class="event-form" onsubmit="adicionarEvento(); return false;">
-      <input type="text" id="nomeAtividade" placeholder="Nome do evento" required>
-      <input type="datetime-local" id="inicioAtividade" required>
-      <input type="datetime-local" id="fimAtividade" required>
-      <textarea id="descricaoAtividade" placeholder="Descrição"></textarea>
-      <button type="submit">Adicionar ao Google Calendar</button>
-    </form>
-    <ul class="event-list" id="listaAtividades"></ul>
-  </div>
+<section class="courses" id="courseContainer">
+<!-- Certificados -->
+<div class="course-card certificado">
+<a href="https://kroton.platosedu.io/lms/m/aluno/index/3243688" target="_blank" rel="noopener noreferrer">
+<h2>Liderança e Gestão de Equipes de Alta Performance ✓</h2>
+</a>
+</div>
+<div class="course-card certificado">
+<a href="https://kroton.platosedu.io/lms/m/aluno/index/3226961" target="_blank" rel="noopener noreferrer">
+<h2>Gestão e Governança de Tecnologia da Informação ✓</h2>
+</a>
+</div>
+<div class="course-card certificado">
+<a href="https://kroton.platosedu.io/lms/m/aluno/index/3325325" target="_blank" rel="noopener noreferrer">
+<h2>Ciência de Dados e Inteligência Artificial ✓</h2>
+</a>
 </div>
 
-<script src="https://apis.google.com/js/api.js"></script>
+<!-- Boletos -->
+<div class="course-card boleto">
+<a href="https://kroton.platosedu.io/lms/m/aluno/index/3303254" target="_blank" rel="noopener noreferrer">
+<h2>Inteligência Artificial e Machine Learning ✓ (Boletos)</h2>
+</a>
+</div>
+
+<!-- Cursando -->
+<div class="course-card cursando">
+<a href="https://infoprod.platosedu.io/v2/lms/login" target="_blank" rel="noopener noreferrer">
+<h2>Anhanguera - Engenharia de Dados e Inteligência Artificial</h2>
+</a>
+</div>
+<div class="course-card cursando">
+<a href="https://pucprdigital.grupoa.education/plataforma/auth/signin" target="_blank" rel="noopener noreferrer">
+<h2>PUC PR - IA e Negócios: Estratégia, Inovação e Resultados</h2>
+</a>
+</div>
+<div class="course-card cursando">
+<a href="https://salavirtual.pucrs.br/" target="_blank" rel="noopener noreferrer">
+<h2>PUC RS - Como usar DS e AI para otimizar a Logística e as Operações</h2>
+</a>
+</div>
+<div class="course-card cursando">
+<a href="https://accounts.fluency.io/signin" target="_blank" rel="noopener noreferrer">
+<h2>Inglês - Fluency Academy</h2>
+</a>
+</div>
+<div class="course-card cursando">
+<a href="https://web.dio.me/home" target="_blank" rel="noopener noreferrer">
+<h2>DIO.ME</h2>
+</a>
+</div>
+<div class="course-card cursando">
+<a href="https://kroton.platosedu.io/v2/lms/aluno/disciplina/3828409" target="_blank" rel="noopener noreferrer">
+<h2>Anhanguera - Tecnologia da Informação Aplicada à Logística</h2>
+</a>
+</div>
+<div class="course-card cursando">
+<a href="https://kroton.platosedu.io/v2/lms/aluno/disciplina/38252526" target="_blank" rel="noopener noreferrer">
+<h2>Anhanguera - MBA EM GESTÃO ÁGIL</h2>
+</a>
+</div>
+
+<!-- Projetos -->
+<div class="course-card projeto">
+<a href="https://www.pucminas.br/Pos-Graduacao/IEC/Cursos/Paginas/MobileEngineering_EAD_Especializacao%20e%20Master.aspx?pageID=5343&moda=5&polo=43&curso=1053&situ=1" target="_blank" rel="noopener noreferrer">
+<h2>PUC MINAS - Desenvolvimento Mobile</h2>
+</a>
+</div>
+<div class="course-card projeto">
+<a href="https://pay.hotmart.com/R98854503I" target="_blank" rel="noopener noreferrer">
+<h2>Prompts para IA</h2>
+</a>
+</div>
+<div class="course-card projeto">
+<a href="http://zucoescrita.com" target="_blank" rel="noopener noreferrer">
+<h2>Cursos de Escrita Científica</h2>
+</a>
+</div>
+<div class="course-card projeto">
+<a href="https://ppgcc.inf.ufg.br/n/192120" target="_blank" rel="noopener noreferrer">
+<h2>UFG Mestrado - 01/07/2025</h2>
+</a>
+</div>
+</section>
+
+<div id="calendarContainer"></div>
+
+</div>
+
 <script>
-  const CLIENT_ID = '1020987215921-ngt4kf1arda7eio7o53df600lkvlurv3.apps.googleusercontent.com';
-  const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
-  const SCOPES = "https://www.googleapis.com/auth/calendar.events";
-  const CALENDAR_ID = 'primary';
+// Tema
+const toggleThemeBtn = document.getElementById('toggleThemeBtn');
+const moonIcon = document.getElementById('moon');
+const sunIcon = document.getElementById('sun');
+const sunRays = document.getElementById('sunrays');
 
-  function handleClientLoad() {
-    gapi.load('client:auth2', initClient);
+function aplicarTemaSalvo() {
+  const tema = localStorage.getItem('tema');
+  if(tema==='dark'){
+    document.body.classList.add('dark-mode');
+    moonIcon.style.display='none';
+    sunIcon.style.display='block';
+    sunRays.style.display='block';
+  } else{
+    document.body.classList.remove('dark-mode');
+    moonIcon.style.display='block';
+    sunIcon.style.display='none';
+    sunRays.style.display='none';
   }
+}
 
-  function initClient() {
-    gapi.client.init({
-      clientId: CLIENT_ID,
-      discoveryDocs: DISCOVERY_DOCS,
-      scope: SCOPES
-    }).then(() => {
-      gapi.auth2.getAuthInstance().signIn().then(carregarEventos);
+toggleThemeBtn.addEventListener('click', ()=>{
+  document.body.classList.toggle('dark-mode');
+  if(document.body.classList.contains('dark-mode')){
+    localStorage.setItem('tema','dark');
+    moonIcon.style.display='none';
+    sunIcon.style.display='block';
+    sunRays.style.display='block';
+  } else{
+    localStorage.setItem('tema','light');
+    moonIcon.style.display='block';
+    sunIcon.style.display='none';
+    sunRays.style.display='none';
+  }
+});
+
+aplicarTemaSalvo();
+
+// Filtrar
+function filtrar(classe){
+  const cards=document.querySelectorAll(".course-card");
+  const container=document.getElementById("courseContainer");
+  const existingTitle=document.getElementById("titulo-projetos");
+  if(existingTitle) existingTitle.remove();
+  cards.forEach(card=>card.style.display="none");
+  if(classe==="todos"){
+    let inserted=false;
+    cards.forEach(card=>{
+      card.style.display="block";
+      if(card.classList.contains("projeto") && !inserted){
+        const titulo=document.createElement("div");
+        titulo.className="projetos-titulo";
+        titulo.id="titulo-projetos";
+        titulo.textContent="PROJETOS";
+        container.insertBefore(titulo,card);
+        inserted=true;
+      }
     });
+  } else{
+    cards.forEach(card=>{ if(card.classList.contains(classe)) card.style.display="block";});
   }
+}
 
-  function authenticate() {
-    return gapi.auth2.getAuthInstance().signIn();
-  }
+// Calendar
+let calendarEvents = JSON.parse(localStorage.getItem('calendarEvents') || '[]');
 
-  function adicionarEvento() {
-    const nome = document.getElementById('nomeAtividade').value;
-    const inicio = document.getElementById('inicioAtividade').value;
-    const fim = document.getElementById('fimAtividade').value;
-    const desc = document.getElementById('descricaoAtividade').value;
+function renderCalendar() {
+  const container = document.getElementById('calendarContainer');
+  container.innerHTML='';
+  calendarEvents.forEach(ev=>{
+    const div = document.createElement('div');
+    div.textContent = `${ev.date} - ${ev.title}`;
+    div.style.padding='5px 0';
+    container.appendChild(div);
+  });
+}
 
-    if(!nome || !inicio || !fim){ alert('Preencha todos os campos!'); return; }
+function addEvent(title, date){
+  calendarEvents.push({title,date});
+  localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
+  renderCalendar();
+}
 
-    authenticate().then(() => {
-      const evento = {
-        summary: nome,
-        description: desc,
-        start: { dateTime: new Date(inicio).toISOString() },
-        end: { dateTime: new Date(fim).toISOString() }
-      };
-      gapi.client.calendar.events.insert({ calendarId: CALENDAR_ID, resource: evento })
-        .then(() => {
-          carregarEventos();
-          document.getElementById('nomeAtividade').value='';
-          document.getElementById('inicioAtividade').value='';
-          document.getElementById('fimAtividade').value='';
-          document.getElementById('descricaoAtividade').value='';
-        });
-    });
-  }
+renderCalendar();
 
-  function carregarEventos() {
-    authenticate().then(() => {
-      gapi.client.calendar.events.list({
-        calendarId: CALENDAR_ID,
-        timeMin: (new Date()).toISOString(),
-        showDeleted: false,
-        singleEvents: true,
-        orderBy: 'startTime'
-      }).then(response => {
-        const eventos = response.result.items;
-        const lista = document.getElementById('listaAtividades');
-        lista.innerHTML = '';
-        eventos.forEach(ev => {
-          const li = document.createElement('li');
-          li.textContent = `${ev.start.dateTime ? new Date(ev.start.dateTime).toLocaleString() : ev.start.date} - ${ev.summary}`;
-          lista.appendChild(li);
-        });
-      });
-    });
-  }
-
-  handleClientLoad();
+// Exemplo: adicionar evento via prompt
+document.getElementById('calendarContainer').addEventListener('dblclick', ()=>{
+  const title = prompt('Título do evento:');
+  const date = prompt('Data (AAAA-MM-DD):');
+  if(title && date) addEvent(title,date);
+});
 </script>
+
 </body>
 </html>
