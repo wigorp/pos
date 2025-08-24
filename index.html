@@ -33,15 +33,14 @@
       width: 100%;
       max-width: 1000px;
       display: flex;
-      justify-content: center; /* centraliza o título */
+      justify-content: center;
       align-items: center;
       padding: 15px;
       background-color: #0073e6;
       color: white;
       border-radius: 8px;
       margin-bottom: 20px;
-      box-sizing: border-box;
-      position: relative; /* para posicionar o botão absoluto */
+      position: relative;
       transition: background-color 0.3s;
     }
 
@@ -165,53 +164,21 @@
       color: #333;
     }
 
-    .certificado {
-      background-color: #229A00;
-      color: white;
-    }
-
-    .boleto {
-      background-color: #FFFF00;
-      color: black;
-    }
-
-    .cursando {
-      background-color: #90D5FF;
-      color: black;
-    }
-
-    .projeto {
-      background-color: #D3B3FF;
-      color: white;
-    }
+    .certificado { background-color: #229A00; color: white; }
+    .boleto { background-color: #FFFF00; color: black; }
+    .cursando { background-color: #90D5FF; color: black; }
+    .projeto { background-color: #D3B3FF; color: white; }
 
     body.dark-mode .course-card {
       background-color: #1e1e1e;
       box-shadow: 0 4px 12px rgba(255 255 255 / 0.1);
     }
 
-    body.dark-mode .course-card a {
-      color: #80b3ff;
-    }
-
-    body.dark-mode .certificado {
-      background-color: #1a6f00;
-    }
-
-    body.dark-mode .boleto {
-      background-color: #cfcf0a;
-      color: black;
-    }
-
-    body.dark-mode .cursando {
-      background-color: #5a9cd8;
-      color: black;
-    }
-
-    body.dark-mode .projeto {
-      background-color: #6e4dbf;
-      color: white;
-    }
+    body.dark-mode .course-card a { color: #80b3ff; }
+    body.dark-mode .certificado { background-color: #1a6f00; }
+    body.dark-mode .boleto { background-color: #cfcf0a; color: black; }
+    body.dark-mode .cursando { background-color: #5a9cd8; color: black; }
+    body.dark-mode .projeto { background-color: #6e4dbf; color: white; }
 
     .projetos-titulo {
       grid-column: 1 / -1;
@@ -224,7 +191,6 @@
       font-weight: bold;
       border-radius: 8px;
       width: 100%;
-      box-sizing: border-box;
       text-align: center;
       transition: background-color 0.3s;
     }
@@ -233,6 +199,71 @@
       background-color: #005bb5;
       border-left-color: #003f7f;
     }
+
+    /* CALENDÁRIO */
+    #calendarContainer {
+      display: none;
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    body.dark-mode #calendarContainer {
+      background-color: #1e1e1e;
+    }
+
+    #calendarContainer h3 {
+      margin-bottom: 10px;
+    }
+
+    #calendarContainer input, #calendarContainer select, #calendarContainer button {
+      padding: 8px;
+      margin-right: 5px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    body.dark-mode #calendarContainer input,
+    body.dark-mode #calendarContainer select {
+      background-color: #333;
+      color: #e0e0e0;
+      border: 1px solid #555;
+    }
+
+    body.dark-mode #calendarContainer button {
+      background-color: #005bb5;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    #listaAtividades {
+      list-style: none;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    #listaAtividades li {
+      padding: 5px 10px;
+      margin-bottom: 5px;
+      border-radius: 4px;
+      color: white;
+    }
+
+    .aula { background-color: #0073e6; }
+    .prova { background-color: #e67e22; }
+    .inicio { background-color: #2ecc71; }
+    .fim { background-color: #c0392b; }
+
+    body.dark-mode .aula { background-color: #005bb5; }
+    body.dark-mode .prova { background-color: #c96a18; }
+    body.dark-mode .inicio { background-color: #27ae60; }
+    body.dark-mode .fim { background-color: #992d22; }
 
     @media (max-width: 600px) {
       .main-content {
@@ -244,10 +275,12 @@
       }
       .filter-buttons button {
         width: 100% !important;
-        max-width: none !important;
       }
       .courses {
         grid-template-columns: 1fr;
+      }
+      #calendarContainer {
+        width: 100%;
       }
     }
   </style>
@@ -256,11 +289,8 @@
   <header class="main-header">
     <h1>PÓS-GRADUAÇÃO</h1>
     <button id="toggleThemeBtn" aria-label="Alternar modo claro/escuro" title="Alternar tema">
-      <!-- Ícone Lua (modo escuro) / Sol (modo claro) via SVG -->
       <svg id="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Lua (dark mode icon) -->
         <path id="moon" d="M21 12.79A9 9 0 0112.21 3a7 7 0 109.79 9.79z" fill="currentColor"/>
-        <!-- Sol (light mode icon), inicialmente oculto -->
         <circle id="sun" cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2" fill="none" style="display:none"/>
         <g id="sunrays" stroke="currentColor" stroke-width="2" style="display:none">
           <line x1="12" y1="1" x2="12" y2="3"/>
@@ -283,13 +313,10 @@
       <button onclick="filtrar('boleto')">Boleto</button>
       <button onclick="filtrar('certificado')">Concluído</button>
       <button onclick="filtrar('todos')">Todos</button>
-
-
-
     </div>
 
     <section class="courses" id="courseContainer">
-
+      <!-- CURSOS CONCLUÍDOS -->
       <div class="course-card certificado">
         <a href="https://kroton.platosedu.io/lms/m/aluno/index/3243688" target="_blank" rel="noopener noreferrer">
           <h2>Liderança e Gestão de Equipes de Alta Performance ✓</h2>
@@ -310,6 +337,8 @@
           <h2>Inteligência Artificial e Machine Learning ✓ (Boletos)</h2>
         </a>
       </div>
+
+      <!-- CURSOS EM ANDAMENTO -->
       <div class="course-card cursando">
         <a href="https://infoprod.platosedu.io/v2/lms/login" target="_blank" rel="noopener noreferrer">
           <h2>Anhanguera - Engenharia de Dados e Inteligência Artificial</h2>
@@ -360,7 +389,23 @@
     </section>
   </div>
 
+  <!-- CALENDÁRIO -->
+  <div id="calendarContainer">
+    <h3>Calendário de Atividades</h3>
+    <input type="date" id="atividadeData" />
+    <input type="text" id="atividadeNome" placeholder="Nome da atividade" />
+    <select id="atividadeTipo">
+      <option value="aula">Aula</option>
+      <option value="prova">Prova</option>
+      <option value="inicio">Início da matéria</option>
+      <option value="fim">Fim da matéria</option>
+    </select>
+    <button onclick="adicionarAtividade()">Adicionar</button>
+    <ul id="listaAtividades"></ul>
+  </div>
+
   <script>
+    // TEMA
     const toggleThemeBtn = document.getElementById('toggleThemeBtn');
     const moonIcon = document.getElementById('moon');
     const sunIcon = document.getElementById('sun');
@@ -370,7 +415,6 @@
       const tema = localStorage.getItem('tema');
       if (tema === 'dark') {
         document.body.classList.add('dark-mode');
-        // mostrar sol (modo claro = sol), ocultar lua
         moonIcon.style.display = 'none';
         sunIcon.style.display = 'block';
         sunRays.style.display = 'block';
@@ -399,17 +443,22 @@
 
     aplicarTemaSalvo();
 
+    // FILTRO DE CURSOS
     function filtrar(classe) {
       const cards = document.querySelectorAll(".course-card");
       const container = document.getElementById("courseContainer");
-      const mensagem = document.getElementById("mensagemInicial");
+      const calendar = document.getElementById("calendarContainer");
 
       const existingTitle = document.getElementById("titulo-projetos");
       if (existingTitle) existingTitle.remove();
 
-      if (mensagem) mensagem.style.display = 'none';
-
       cards.forEach(card => card.style.display = "none");
+
+      if(classe === "cursando") {
+        calendar.style.display = "block";
+      } else {
+        calendar.style.display = "none";
+      }
 
       if (classe === "todos") {
         let inserted = false;
@@ -426,11 +475,43 @@
         });
       } else {
         cards.forEach(card => {
-          if (card.classList.contains(classe)) {
-            card.style.display = "block";
-          }
+          if (card.classList.contains(classe)) card.style.display = "block";
         });
       }
+    }
+
+    // CALENDÁRIO
+    function adicionarAtividade() {
+      const data = document.getElementById('atividadeData').value;
+      const nome = document.getElementById('atividadeNome').value;
+      const tipo = document.getElementById('atividadeTipo').value;
+
+      if(!data || !nome) {
+        alert("Preencha todos os campos!");
+        return;
+      }
+
+      const lista = document.getElementById('listaAtividades');
+      const item = document.createElement('li');
+      item.textContent = `${data} - ${nome}`;
+      item.className = tipo;
+
+      // Inserir em ordem cronológica
+      const items = Array.from(lista.children);
+      let added = false;
+      for(let i=0; i<items.length; i++){
+        if(items[i].textContent > item.textContent){
+          lista.insertBefore(item, items[i]);
+          added = true;
+          break;
+        }
+      }
+      if(!added) lista.appendChild(item);
+
+      // Limpar campos
+      document.getElementById('atividadeData').value = '';
+      document.getElementById('atividadeNome').value = '';
+      document.getElementById('atividadeTipo').value = 'aula';
     }
   </script>
 </body>
