@@ -5,28 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pós-Graduação</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
-body { background-color:#f3f4f6; color:#333; padding:20px; display:flex; flex-direction:column; min-height:100vh; }
-header.main-header { display:flex; justify-content:center; align-items:center; padding:15px; background-color:#0073e6; color:white; border-radius:8px; margin-bottom:20px; position:relative; }
-header.main-header h1 { font-size:1.5em; }
-.main-content { display:flex; max-width:1000px; width:100%; gap:20px; align-items:flex-start; }
-.filter-buttons { display:flex; flex-direction:column; gap:10px; width:180px; }
-.filter-buttons button { background-color:#0073e6; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; }
+* { margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif; transition: background-color 0.3s,color 0.3s;}
+body { background-color:#f3f4f6; color:#333; padding:20px; display:flex; flex-direction:column; min-height:100vh;}
+body.dark-mode { background-color:#121212; color:#e0e0e0;}
+header.main-header { display:flex; justify-content:center; align-items:center; padding:15px; background-color:#0073e6; color:white; border-radius:8px; margin-bottom:20px; position:relative;}
+body.dark-mode header.main-header{background-color:#005bb5;}
+header.main-header h1{font-size:1.5em;}
+.main-content { display:flex; max-width:1000px; width:100%; gap:20px; align-items:flex-start; flex-wrap:wrap;}
+.filter-buttons { display:flex; flex-direction:column; gap:10px; width:180px;}
+.filter-buttons button { background-color:#0073e6; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; transition: background 0.3s; }
 .filter-buttons button:hover { background-color:#005bb5; }
+body.dark-mode .filter-buttons button { background-color:#005bb5; color:#cce4ff; }
+body.dark-mode .filter-buttons button:hover { background-color:#003f7f; }
 .courses { flex:1; display:grid; grid-template-columns:1fr 1fr; gap:20px; position:relative; }
-.course-card { display:none; padding:20px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); text-align:center; transition:transform 0.3s; }
-.course-card a { text-decoration:none; color:#0073e6; }
-.course-card:hover { transform:translateY(-5px); }
+.course-card { display:none; padding:20px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); text-align:center; transition: transform 0.3s, background-color 0.3s, color 0.3s; }
+.course-card a { text-decoration:none; color:#0073e6; transition:color 0.3s;}
+.course-card:hover { transform:translateY(-5px);}
 .certificado { background-color:#229A00; color:white; }
 .boleto { background-color:#FFFF00; color:black; }
 .cursando { background-color:#90D5FF; color:black; }
 .projeto { background-color:#D3B3FF; color:white; }
-.projetos-titulo { grid-column:1/-1; font-size:1.4em; color:white; background-color:#0073e6; margin-top:20px; border-left:5px solid #005bb5; padding:10px 20px; font-weight:bold; border-radius:8px; text-align:center; }
+body.dark-mode .course-card { background-color:#1e1e1e; box-shadow:0 4px 12px rgba(255 255 255 / 0.1);}
+body.dark-mode .course-card a { color:#80b3ff; }
+body.dark-mode .certificado { background-color:#1a6f00; }
+body.dark-mode .boleto { background-color:#cfcf0a; color:black; }
+body.dark-mode .cursando { background-color:#5a9cd8; color:black; }
+body.dark-mode .projeto { background-color:#6e4dbf; color:white; }
+.projetos-titulo { grid-column:1/-1; font-size:1.4em; color:white; background-color:#0073e6; margin-top:20px; border-left:5px solid #005bb5; padding:10px 20px; font-weight:bold; border-radius:8px; text-align:center; transition: background-color 0.3s; }
+body.dark-mode .projetos-titulo { background-color:#005bb5; border-left-color:#003f7f; }
 #calendarContainer { margin-top:20px; }
-#addEventForm { margin-top:10px; display:flex; flex-direction:column; gap:5px; }
-#addEventForm input, #addEventForm button { padding:8px; border-radius:5px; border:1px solid #ccc; }
-#addEventForm button { background-color:#0073e6; color:white; border:none; cursor:pointer; }
-@media (max-width:600px){ .main-content{flex-direction:column;} .filter-buttons{width:100%;} .courses{grid-template-columns:1fr;} }
+#addEventForm { margin-top:10px; display:flex; flex-direction:column; gap:5px;}
+#addEventForm input, #addEventForm button { padding:8px; border-radius:5px; border:1px solid #ccc;}
+#addEventForm button { background-color:#0073e6; color:white; border:none; cursor:pointer;}
+@media(max-width:600px){ .main-content{flex-direction:column;} .filter-buttons{width:100%;} .courses{grid-template-columns:1fr;}}
 </style>
 <script src="https://apis.google.com/js/api.js"></script>
 </head>
@@ -49,159 +60,95 @@ header.main-header h1 { font-size:1.5em; }
         <input type="datetime-local" id="eventDateTime" required>
         <button type="submit">Adicionar Evento</button>
       </form>
+      <button onclick="handleAuthClick()" style="margin-top:10px;">Login Google</button>
     </div>
   </div>
 
   <section class="courses" id="courseContainer">
     <!-- Certificados -->
-    <div class="course-card certificado">
-      <a href="https://kroton.platosedu.io/lms/m/aluno/index/3243688" target="_blank">
-        <h2>Liderança e Gestão de Equipes de Alta Performance ✓</h2>
-      </a>
-    </div>
-    <div class="course-card certificado">
-      <a href="https://kroton.platosedu.io/lms/m/aluno/index/3226961" target="_blank">
-        <h2>Gestão e Governança de TI ✓</h2>
-      </a>
-    </div>
-    <div class="course-card certificado">
-      <a href="https://kroton.platosedu.io/lms/m/aluno/index/3325325" target="_blank">
-        <h2>Ciência de Dados e Inteligência Artificial ✓</h2>
-      </a>
-    </div>
+    <div class="course-card certificado"><a href="https://kroton.platosedu.io/lms/m/aluno/index/3243688" target="_blank"><h2>Liderança e Gestão de Equipes de Alta Performance ✓</h2></a></div>
+    <div class="course-card certificado"><a href="https://kroton.platosedu.io/lms/m/aluno/index/3226961" target="_blank"><h2>Gestão e Governança de TI ✓</h2></a></div>
+    <div class="course-card certificado"><a href="https://kroton.platosedu.io/lms/m/aluno/index/3325325" target="_blank"><h2>Ciência de Dados e Inteligência Artificial ✓</h2></a></div>
     <!-- Boletos -->
-    <div class="course-card boleto">
-      <a href="https://kroton.platosedu.io/lms/m/aluno/index/3303254" target="_blank">
-        <h2>Inteligência Artificial e Machine Learning ✓ (Boletos)</h2>
-      </a>
-    </div>
+    <div class="course-card boleto"><a href="https://kroton.platosedu.io/lms/m/aluno/index/3303254" target="_blank"><h2>Inteligência Artificial e Machine Learning ✓ (Boletos)</h2></a></div>
     <!-- Cursando -->
-    <div class="course-card cursando">
-      <a href="https://infoprod.platosedu.io/v2/lms/login" target="_blank">
-        <h2>Anhanguera - Engenharia de Dados e Inteligência Artificial</h2>
-      </a>
-    </div>
-    <div class="course-card cursando">
-      <a href="https://pucprdigital.grupoa.education/plataforma/auth/signin" target="_blank">
-        <h2>PUC PR - IA e Negócios</h2>
-      </a>
-    </div>
-    <div class="course-card cursando">
-      <a href="https://salavirtual.pucrs.br/" target="_blank">
-        <h2>PUC RS - DS e AI na Logística</h2>
-      </a>
-    </div>
-    <div class="course-card cursando">
-      <a href="https://accounts.fluency.io/signin" target="_blank">
-        <h2>Inglês - Fluency Academy</h2>
-      </a>
-    </div>
-    <div class="course-card cursando">
-      <a href="https://web.dio.me/home" target="_blank">
-        <h2>DIO.ME</h2>
-      </a>
-    </div>
-    <div class="course-card cursando">
-      <a href="https://kroton.platosedu.io/v2/lms/aluno/disciplina/3828409" target="_blank">
-        <h2>Anhanguera - Tecnologia da Informação Aplicada à Logística</h2>
-      </a>
-    </div>
-    <div class="course-card cursando">
-      <a href="https://kroton.platosedu.io/v2/lms/aluno/disciplina/38252526" target="_blank">
-        <h2>Anhanguera - MBA em Gestão Ágil</h2>
-      </a>
-    </div>
+    <div class="course-card cursando"><a href="https://infoprod.platosedu.io/v2/lms/login" target="_blank"><h2>Anhanguera - Engenharia de Dados e IA</h2></a></div>
+    <div class="course-card cursando"><a href="https://pucprdigital.grupoa.education/plataforma/auth/signin" target="_blank"><h2>PUC PR - IA e Negócios</h2></a></div>
+    <div class="course-card cursando"><a href="https://salavirtual.pucrs.br/" target="_blank"><h2>PUC RS - DS e AI na Logística</h2></a></div>
+    <div class="course-card cursando"><a href="https://accounts.fluency.io/signin" target="_blank"><h2>Inglês - Fluency Academy</h2></a></div>
+    <div class="course-card cursando"><a href="https://web.dio.me/home" target="_blank"><h2>DIO.ME</h2></a></div>
+    <div class="course-card cursando"><a href="https://kroton.platosedu.io/v2/lms/aluno/disciplina/3828409" target="_blank"><h2>Anhanguera - Tecnologia da Informação Aplicada à Logística</h2></a></div>
+    <div class="course-card cursando"><a href="https://kroton.platosedu.io/v2/lms/aluno/disciplina/38252526" target="_blank"><h2>Anhanguera - MBA em Gestão Ágil</h2></a></div>
     <!-- Projetos -->
-    <div class="course-card projeto">
-      <a href="https://www.pucminas.br/Pos-Graduacao/IEC/Cursos/Paginas/MobileEngineering_EAD_Especializacao%20e%20Master.aspx?pageID=5343&moda=5&polo=43&curso=1053&situ=1" target="_blank">
-        <h2>PUC MINAS - Desenvolvimento Mobile</h2>
-      </a>
-    </div>
-    <div class="course-card projeto">
-      <a href="https://pay.hotmart.com/R98854503I" target="_blank">
-        <h2>Prompts para IA</h2>
-      </a>
-    </div>
-    <div class="course-card projeto">
-      <a href="http://zucoescrita.com" target="_blank">
-        <h2>Cursos de Escrita Científica</h2>
-      </a>
-    </div>
-    <div class="course-card projeto">
-      <a href="https://ppgcc.inf.ufg.br/n/192120" target="_blank">
-        <h2>UFG Mestrado - 01/07/2025</h2>
-      </a>
-    </div>
+    <div class="course-card projeto"><a href="https://www.pucminas.br/Pos-Graduacao/IEC/Cursos/Paginas/MobileEngineering_EAD_Especializacao%20e%20Master.aspx?pageID=5343&moda=5&polo=43&curso=1053&situ=1" target="_blank"><h2>PUC MINAS - Desenvolvimento Mobile</h2></a></div>
+    <div class="course-card projeto"><a href="https://pay.hotmart.com/R98854503I" target="_blank"><h2>Prompts para IA</h2></a></div>
+    <div class="course-card projeto"><a href="http://zucoescrita.com" target="_blank"><h2>Cursos de Escrita Científica</h2></a></div>
+    <div class="course-card projeto"><a href="https://ppgcc.inf.ufg.br/n/192120" target="_blank"><h2>UFG Mestrado - 01/07/2025</h2></a></div>
   </section>
 </div>
 
 <script>
 // Filtrar cursos
 function filtrar(classe){
-  const cards = document.querySelectorAll(".course-card");
-  cards.forEach(card => card.style.display="none");
+  const cards=document.querySelectorAll(".course-card");
+  cards.forEach(card=>card.style.display="none");
   if(classe==="todos") cards.forEach(card=>card.style.display="block");
   else cards.forEach(card=>{if(card.classList.contains(classe)) card.style.display="block";});
 }
 
-// Google Calendar API
-const CLIENT_ID = 'SEU_CLIENT_ID_AQUI'; // coloque seu client_id
-const API_KEY = 'SEU_API_KEY_AQUI';     // coloque seu api_key
-const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
-const SCOPES = "https://www.googleapis.com/auth/calendar";
+// Google Calendar
+const CLIENT_ID='SEU_CLIENT_ID_AQUI';
+const API_KEY='SEU_API_KEY_AQUI';
+const DISCOVERY_DOCS=["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+const SCOPES="https://www.googleapis.com/auth/calendar";
 
-function initClient() {
-  gapi.client.init({apiKey: API_KEY, clientId: CLIENT_ID, discoveryDocs: DISCOVERY_DOCS, scope: SCOPES})
-    .then(() => {
-      gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-      updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-    });
+function initClient(){
+  gapi.client.init({apiKey:API_KEY,clientId:CLIENT_ID,discoveryDocs:DISCOVERY_DOCS,scope:SCOPES})
+  .then(()=>{
+    gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+    updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+  });
 }
 
-function handleAuthClick() {
-  gapi.auth2.getAuthInstance().signIn();
+function handleAuthClick(){ gapi.auth2.getAuthInstance().signIn(); }
+function handleSignoutClick(){ gapi.auth2.getAuthInstance().signOut(); }
+
+function updateSigninStatus(isSignedIn){
+  if(isSignedIn){ listUpcomingEvents(); }
 }
 
-function handleSignoutClick() {
-  gapi.auth2.getAuthInstance().signOut();
-}
-
-function updateSigninStatus(isSignedIn) {
-  if(isSignedIn){
-    listUpcomingEvents();
-  }
-}
-
-function listUpcomingEvents() {
+function listUpcomingEvents(){
   gapi.client.calendar.events.list({
-    'calendarId': 'primary',
-    'timeMin': (new Date()).toISOString(),
-    'showDeleted': false,
-    'singleEvents': true,
-    'maxResults': 50,
-    'orderBy': 'startTime'
-  }).then(response => {
-    const events = response.result.items;
-    const eventsList = document.getElementById("eventsList");
-    eventsList.innerHTML = '';
+    'calendarId':'primary',
+    'timeMin':(new Date()).toISOString(),
+    'showDeleted':false,
+    'singleEvents':true,
+    'maxResults':50,
+    'orderBy':'startTime'
+  }).then(response=>{
+    const events=response.result.items;
+    const eventsList=document.getElementById("eventsList");
+    eventsList.innerHTML='';
     events.forEach(event=>{
-      const li = document.createElement('div');
-      li.textContent = `${event.summary} - ${event.start.dateTime ? new Date(event.start.dateTime).toLocaleString() : event.start.date}`;
+      const li=document.createElement('div');
+      li.textContent=`${event.summary} - ${event.start.dateTime ? new Date(event.start.dateTime).toLocaleString() : event.start.date}`;
       eventsList.appendChild(li);
     });
   });
 }
 
-document.getElementById('addEventForm').addEventListener('submit', e=>{
+document.getElementById('addEventForm').addEventListener('submit',e=>{
   e.preventDefault();
-  const title = document.getElementById('eventTitle').value;
-  const dateTime = document.getElementById('eventDateTime').value;
-  const event = {
-    'summary': title,
-    'start': { 'dateTime': new Date(dateTime).toISOString() },
-    'end': { 'dateTime': new Date(new Date(dateTime).getTime()+60*60*1000).toISOString() } // +1 hora
+  if(!gapi.auth2.getAuthInstance().isSignedIn.get()){ alert('Faça login antes de adicionar evento!'); return; }
+  const title=document.getElementById('eventTitle').value;
+  const dateTime=document.getElementById('eventDateTime').value;
+  const event={
+    'summary':title,
+    'start':{'dateTime':new Date(dateTime).toISOString()},
+    'end':{'dateTime':new Date(new Date(dateTime).getTime()+60*60*1000).toISOString()}
   };
-  gapi.client.calendar.events.insert({calendarId:'primary', resource:event}).then(()=>{
+  gapi.client.calendar.events.insert({calendarId:'primary', resource:event})
+  .then(()=>{
     document.getElementById('eventTitle').value='';
     document.getElementById('eventDateTime').value='';
     listUpcomingEvents();
