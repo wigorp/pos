@@ -2280,6 +2280,80 @@
     document.body.classList.add("dark");
   }
 
+
+  /* CERTIFICADOS
+     A lista dos certificados públicos é gerada pela área acadêmica
+     em certificados/index.json. Só ganham link os que existem. */
+
+  (async function sincronizarCertificados() {
+
+    const normalizar = texto =>
+      texto.replace(/\s+/g, " ").trim().toLowerCase();
+
+    const cards = [...document.querySelectorAll("#formacao .education-card")];
+
+    function tornarLink(card, caminho) {
+      const link = document.createElement("a");
+      link.className = card.className
+        .replace("no-certificate", "has-certificate");
+      link.href = caminho;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.innerHTML = card.innerHTML;
+      card.replaceWith(link);
+    }
+
+    function removerLink(card) {
+      const artigo = document.createElement("article");
+      artigo.className = card.className
+        .replace("has-certificate", "no-certificate");
+      artigo.innerHTML = card.innerHTML;
+      card.replaceWith(artigo);
+    }
+
+    let publicos = null;
+
+    try {
+      const r = await fetch("certificados/index.json", { cache: "no-cache" });
+      if (r.ok) publicos = await r.json();
+    } catch { /* aberto como arquivo local */ }
+
+    if (Array.isArray(publicos)) {
+      const mapa = new Map(
+        publicos.map(c => [normalizar(c.titulo || ""), c.caminho])
+      );
+
+      cards.forEach(card => {
+        const titulo = normalizar(card.querySelector("h3").textContent);
+        const caminho = mapa.get(titulo);
+
+        if (caminho && /^certificados\/[a-z0-9._-]+$/.test(caminho)) {
+          if (card.tagName === "A") card.href = caminho;
+          else tornarLink(card, caminho);
+        } else if (card.tagName === "A") {
+          removerLink(card);
+        }
+      });
+
+      return;
+    }
+
+    // Sem lista publicada: confere se cada arquivo linkado existe
+    if (location.protocol === "file:") return;
+
+    cards
+      .filter(card => card.tagName === "A")
+      .forEach(async card => {
+        try {
+          const r = await fetch(card.href, { method: "HEAD" });
+          if (!r.ok) removerLink(card);
+        } catch {
+          removerLink(card);
+        }
+      });
+
+  })();
+
 </script>
 
 </body>

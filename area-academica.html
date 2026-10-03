@@ -4,470 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'none'; form-action 'self'"
+  >
 
   <title>Pós-graduações | Área Acadêmica</title>
 
   <link rel="stylesheet" href="academico.css">
-
-  <style>
-    /* Esconde tudo até confirmar a sessão (evita "piscar" o conteúdo) */
-    body.auth-pending .app {
-      visibility: hidden;
-    }
-
-    .boot {
-      position: fixed;
-      inset: 0;
-      display: none;
-      place-items: center;
-      color: var(--text-secondary);
-    }
-
-    body.auth-pending .boot {
-      display: grid;
-    }
-
-    .boot .spinner {
-      width: 28px;
-      height: 28px;
-      border-color: var(--surface-3);
-      border-top-color: var(--primary);
-    }
-
-    /* ---------- Header ---------- */
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-
-      background: rgba(255, 255, 255, .92);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    body.dark header {
-      background: rgba(2, 6, 23, .92);
-    }
-
-    .navbar {
-      min-height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .logo {
-      font-size: 1.25rem;
-      font-weight: 850;
-      letter-spacing: -.5px;
-      white-space: nowrap;
-    }
-
-    .logo span {
-      color: var(--primary);
-    }
-
-    .logo small {
-      margin-left: 8px;
-      color: var(--text-secondary);
-      font-size: .8rem;
-      font-weight: 650;
-      letter-spacing: 0;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .user-chip {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-
-      padding: 6px 12px 6px 6px;
-
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-
-      font-size: .84rem;
-      color: var(--text-secondary);
-      max-width: 260px;
-    }
-
-    .user-chip .avatar {
-      display: grid;
-      place-items: center;
-
-      width: 28px;
-      height: 28px;
-      flex-shrink: 0;
-
-      background: var(--primary);
-      color: #fff;
-      border-radius: 50%;
-
-      font-weight: 800;
-      font-size: .8rem;
-      text-transform: uppercase;
-    }
-
-    .user-chip span:last-child {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .btn-sm {
-      padding: 9px 14px;
-      font-size: .84rem;
-      border-radius: 10px;
-    }
-
-    /* ---------- Hero ---------- */
-
-    .page-head {
-      padding: 44px 0 26px;
-    }
-
-    .section-label {
-      color: var(--primary);
-      font-size: .8rem;
-      font-weight: 800;
-      letter-spacing: 1.4px;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .page-head h1 {
-      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
-      line-height: 1.15;
-      letter-spacing: -1px;
-    }
-
-    .page-head p {
-      margin-top: 8px;
-      color: var(--text-secondary);
-    }
-
-    /* ---------- Estatísticas ---------- */
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .stat {
-      padding: 20px;
-
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 1.9rem;
-      line-height: 1.1;
-      letter-spacing: -1px;
-    }
-
-    .stat span {
-      color: var(--text-secondary);
-      font-size: .86rem;
-      font-weight: 600;
-    }
-
-    /* ---------- Filtros ---------- */
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      margin-bottom: 22px;
-    }
-
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .chip {
-      padding: 8px 14px;
-
-      background: var(--surface);
-      color: var(--text-secondary);
-
-      border: 1px solid var(--border);
-      border-radius: 999px;
-
-      font-size: .86rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .chip:hover {
-      color: var(--primary);
-      border-color: var(--primary);
-    }
-
-    .chip[aria-pressed="true"] {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: #fff;
-    }
-
-    .search {
-      position: relative;
-      width: min(320px, 100%);
-    }
-
-    .search input {
-      width: 100%;
-      padding: 10px 14px 10px 38px;
-
-      background: var(--surface);
-      color: var(--text);
-
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      outline: none;
-    }
-
-    .search input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px var(--primary-light);
-    }
-
-    .search::before {
-      content: "🔍";
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: .85rem;
-      opacity: .6;
-    }
-
-    /* ---------- Cards ---------- */
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-      gap: 20px;
-      padding-bottom: 60px;
-    }
-
-    .course {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-
-      padding: 24px;
-
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-
-      transition: .25s;
-    }
-
-    .course:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-hover);
-    }
-
-    .course-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .institution {
-      color: var(--primary);
-      font-size: .78rem;
-      font-weight: 800;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-    }
-
-    .status {
-      flex-shrink: 0;
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: .76rem;
-      font-weight: 800;
-    }
-
-    .status-concluido {
-      background: var(--success-light);
-      color: var(--success);
-    }
-
-    .status-cursando {
-      background: var(--warning-light);
-      color: var(--warning);
-    }
-
-    .status-trancado {
-      background: var(--surface-3);
-      color: var(--text-secondary);
-    }
-
-    .course h3 {
-      font-size: 1.08rem;
-      line-height: 1.35;
-      letter-spacing: -.3px;
-    }
-
-    .course p {
-      color: var(--text-secondary);
-      font-size: .9rem;
-    }
-
-    .progress-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: .8rem;
-      font-weight: 700;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
-    }
-
-    .progress {
-      height: 8px;
-      background: var(--surface-3);
-      border-radius: 999px;
-      overflow: hidden;
-    }
-
-    .progress > div {
-      height: 100%;
-      background: var(--primary);
-      border-radius: 999px;
-    }
-
-    .progress.done > div {
-      background: var(--success);
-    }
-
-    .dates {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px 16px;
-      font-size: .8rem;
-      color: var(--text-secondary);
-    }
-
-    .links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: auto;
-      padding-top: 4px;
-    }
-
-    .links a {
-      padding: 6px 11px;
-
-      background: var(--primary-light);
-      color: var(--primary);
-
-      border-radius: 8px;
-
-      font-size: .8rem;
-      font-weight: 700;
-      transition: .2s;
-    }
-
-    .links a:hover {
-      background: var(--primary);
-      color: #fff;
-    }
-
-    details.notes {
-      border-top: 1px dashed var(--border);
-      padding-top: 10px;
-      font-size: .88rem;
-    }
-
-    details.notes summary {
-      cursor: pointer;
-      font-weight: 700;
-      color: var(--text-secondary);
-    }
-
-    details.notes div {
-      margin-top: 8px;
-      white-space: pre-line;
-      color: var(--text);
-    }
-
-    .empty {
-      grid-column: 1 / -1;
-      padding: 50px 20px;
-      text-align: center;
-      color: var(--text-secondary);
-
-      background: var(--surface);
-      border: 1px dashed var(--border);
-      border-radius: var(--radius);
-    }
-
-    .empty strong {
-      display: block;
-      color: var(--text);
-      font-size: 1.05rem;
-      margin-bottom: 4px;
-    }
-
-    /* ---------- Responsivo ---------- */
-
-    @media (max-width: 860px) {
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .user-chip span:last-child,
-      .logo small {
-        display: none;
-      }
-
-      .user-chip {
-        padding: 4px;
-      }
-    }
-
-    @media (max-width: 420px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .course {
-        padding: 20px;
-      }
-    }
-  </style>
 </head>
 
 
 <body class="auth-pending">
 
 <div class="boot" aria-live="polite">
-  <span class="spinner" aria-label="Verificando acesso"></span>
+  <span class="spinner spinner-dark" aria-label="Verificando acesso"></span>
 </div>
 
 
@@ -487,15 +39,20 @@
 
     <div class="header-actions">
 
-      <div class="user-chip" title="Usuário conectado">
-        <span class="avatar" id="user-avatar">?</span>
-        <span id="user-email"></span>
-      </div>
+      <button
+        id="btn-edit"
+        class="btn btn-ghost btn-sm btn-edit"
+        type="button"
+        aria-pressed="false"
+        title="Editar cursos e enviar certificados"
+      >
+        ✏️ <span class="hide-mobile">Gerenciar</span>
+      </button>
 
       <button
         class="theme-button"
         type="button"
-        onclick="toggleTheme()"
+        id="theme"
         title="Alternar tema"
         aria-label="Alternar tema claro e escuro"
       >
@@ -519,13 +76,21 @@
 
     <div class="section-label">Painel</div>
 
-    <h1>Pós-graduações e especializações</h1>
+    <h1>Pós-graduações e graduações</h1>
 
     <p>
-      Andamento, materiais e anotações de cada curso.
+      Andamento, certificados, materiais e anotações de cada curso.
     </p>
 
   </section>
+
+
+  <div id="admin-bar" class="admin-bar" hidden>
+    <strong>Modo de edição</strong>
+    <button id="btn-new" class="btn btn-primary btn-sm" type="button">+ Novo curso</button>
+    <button id="btn-token" class="btn btn-ghost btn-sm" type="button">🔑 Token do GitHub</button>
+    <button id="btn-password" class="btn btn-ghost btn-sm" type="button">🔒 Alterar senha</button>
+  </div>
 
 
   <div id="alert" class="alert" role="alert"></div>
@@ -549,8 +114,8 @@
     </div>
 
     <div class="stat">
-      <strong id="stat-avg">–</strong>
-      <span>Progresso médio</span>
+      <strong id="stat-certs">–</strong>
+      <span>Certificados enviados</span>
     </div>
 
   </section>
@@ -558,10 +123,20 @@
 
   <div class="toolbar">
 
-    <div class="chips" role="group" aria-label="Filtrar por status">
-      <button class="chip" data-filter="todos" aria-pressed="true">Todos</button>
-      <button class="chip" data-filter="cursando" aria-pressed="false">Cursando</button>
-      <button class="chip" data-filter="concluido" aria-pressed="false">Concluídos</button>
+    <div class="filters">
+
+      <div class="chips" role="group" aria-label="Filtrar por status" data-group="status">
+        <button class="chip" type="button" data-value="todos" aria-pressed="true">Todos</button>
+        <button class="chip" type="button" data-value="cursando" aria-pressed="false">Cursando</button>
+        <button class="chip" type="button" data-value="concluido" aria-pressed="false">Concluídos</button>
+      </div>
+
+      <div class="chips" role="group" aria-label="Filtrar por tipo" data-group="tipo">
+        <button class="chip" type="button" data-value="todos" aria-pressed="true">Todos os tipos</button>
+        <button class="chip" type="button" data-value="pos" aria-pressed="false">Pós</button>
+        <button class="chip" type="button" data-value="graduacao" aria-pressed="false">Graduação</button>
+      </div>
+
     </div>
 
     <label class="search">
@@ -576,260 +151,250 @@
   </div>
 
 
-  <section id="grid" class="grid" aria-live="polite"></section>
+  <div id="list" aria-live="polite"></div>
 
 </main>
 
 </div>
 
 
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+
 <!-- =========================================================
-     JAVASCRIPT
+     DIÁLOGO: CURSO
 ========================================================= -->
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js"></script>
+<dialog id="dlg-course" aria-labelledby="dlg-course-title">
 
-<script>
+  <form id="form-course" novalidate>
 
-  const LOGIN_URL = "login.html";
+    <div class="dialog-head">
+      <h2 id="dlg-course-title">Editar curso</h2>
+      <button type="button" class="dialog-close" data-close aria-label="Fechar">✕</button>
+    </div>
 
-  const STATUS = {
-    concluido: "✓ Concluído",
-    cursando: "● Cursando",
-    trancado: "Trancado"
-  };
+    <div class="dialog-body">
 
-  let courses = [];
-  let filter = "todos";
+      <div class="alert" data-alert role="alert"></div>
 
+      <div class="field">
+        <label for="c-titulo">Nome do curso</label>
+        <input id="c-titulo" name="titulo" required maxlength="160">
+      </div>
 
-  /* TEMA */
-
-  function toggleTheme() {
-    document.body.classList.toggle("dark");
-
-    localStorage.setItem(
-      "portfolio-theme",
-      document.body.classList.contains("dark") ? "dark" : "light"
-    );
-  }
-
-  if (localStorage.getItem("portfolio-theme") === "dark") {
-    document.body.classList.add("dark");
-  }
-
-
-  /* UTILITÁRIOS */
-
-  function esc(value) {
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
-  }
-
-  function safeUrl(url) {
-    try {
-      const u = new URL(url, location.href);
-      return ["http:", "https:"].includes(u.protocol) ? u.href : null;
-    } catch {
-      return null;
-    }
-  }
-
-  function formatDate(iso) {
-    if (!iso) return null;
-    const [y, m] = iso.split("-");
-    return new Date(+y, +m - 1)
-      .toLocaleDateString("pt-BR", { month: "short", year: "numeric" });
-  }
-
-  function showAlert(type, message) {
-    const box = document.getElementById("alert");
-    box.className = "alert alert-" + type + " show";
-    box.textContent = message;
-  }
-
-
-  /* RENDERIZAÇÃO */
-
-  function renderStats() {
-    const total = courses.length;
-    const done = courses.filter(c => c.status === "concluido").length;
-    const ongoing = courses.filter(c => c.status === "cursando").length;
-    const avg = total
-      ? Math.round(courses.reduce((s, c) => s + (c.progresso || 0), 0) / total)
-      : 0;
-
-    document.getElementById("stat-total").textContent = total;
-    document.getElementById("stat-done").textContent = done;
-    document.getElementById("stat-progress").textContent = ongoing;
-    document.getElementById("stat-avg").textContent = avg + "%";
-  }
-
-  function courseCard(c) {
-    const progress = Math.max(0, Math.min(100, c.progresso || 0));
-    const status = STATUS[c.status] ? c.status : "cursando";
-
-    const dates = [
-      c.inicio && "Início: " + formatDate(c.inicio),
-      c.conclusao &&
-        (status === "concluido" ? "Conclusão: " : "Previsão: ") +
-        formatDate(c.conclusao)
-    ].filter(Boolean);
-
-    const links = (Array.isArray(c.links) ? c.links : [])
-      .map(l => ({ label: l && l.rotulo, url: safeUrl(l && l.url) }))
-      .filter(l => l.label && l.url)
-      .map(l =>
-        `<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.label)}</a>`
-      )
-      .join("");
-
-    return `
-      <article class="course">
-        <div class="course-top">
-          <span class="institution">${esc(c.instituicao)}</span>
-          <span class="status status-${status}">${STATUS[status]}</span>
+      <div class="row">
+        <div class="field">
+          <label for="c-instituicao">Instituição</label>
+          <input id="c-instituicao" name="instituicao" required maxlength="80">
         </div>
 
-        <h3>${esc(c.titulo)}</h3>
+        <div class="field">
+          <label for="c-tipo">Tipo</label>
+          <select id="c-tipo" name="tipo">
+            <option value="pos">Pós-graduação / especialização</option>
+            <option value="graduacao">Graduação</option>
+          </select>
+        </div>
+      </div>
 
-        ${c.descricao ? `<p>${esc(c.descricao)}</p>` : ""}
-
-        <div>
-          <div class="progress-label">
-            <span>Progresso</span><span>${progress}%</span>
-          </div>
-          <div class="progress ${progress === 100 ? "done" : ""}"
-               role="progressbar"
-               aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100">
-            <div style="width:${progress}%"></div>
-          </div>
+      <div class="row">
+        <div class="field">
+          <label for="c-status">Status</label>
+          <select id="c-status" name="status">
+            <option value="cursando">Cursando</option>
+            <option value="concluido">Concluído</option>
+            <option value="trancado">Trancado</option>
+          </select>
         </div>
 
-        ${dates.length ? `<div class="dates">${dates.map(d => `<span>${esc(d)}</span>`).join("")}</div>` : ""}
+        <div class="field">
+          <label for="c-progresso">Progresso</label>
+          <div class="range-row">
+            <input id="c-progresso" name="progresso" type="range" min="0" max="100" step="5">
+            <output id="c-progresso-out" for="c-progresso">0%</output>
+          </div>
+        </div>
+      </div>
 
-        ${links ? `<div class="links">${links}</div>` : ""}
+      <div class="row">
+        <div class="field">
+          <label for="c-inicio">Início</label>
+          <input id="c-inicio" name="inicio" type="month">
+        </div>
 
-        ${c.anotacoes ? `
-          <details class="notes">
-            <summary>Anotações</summary>
-            <div>${esc(c.anotacoes)}</div>
-          </details>` : ""}
-      </article>`;
-  }
+        <div class="field">
+          <label for="c-conclusao">Conclusão / previsão</label>
+          <input id="c-conclusao" name="conclusao" type="month">
+        </div>
+      </div>
 
-  function renderGrid() {
-    const grid = document.getElementById("grid");
-    const term = document.getElementById("search").value.trim().toLowerCase();
-
-    const list = courses.filter(c =>
-      (filter === "todos" || c.status === filter) &&
-      (!term ||
-        (c.titulo || "").toLowerCase().includes(term) ||
-        (c.instituicao || "").toLowerCase().includes(term))
-    );
-
-    if (!courses.length) {
-      grid.innerHTML = `
-        <div class="empty">
-          <strong>Nenhum curso encontrado</strong>
-          Confira se há registros na tabela <code>pos_graduacoes</code>
-          e se seu e-mail está em <code>acesso_permitido</code>.
-        </div>`;
-      return;
-    }
-
-    grid.innerHTML = list.length
-      ? list.map(courseCard).join("")
-      : `<div class="empty"><strong>Nada encontrado</strong>Ajuste o filtro ou a busca.</div>`;
-  }
+      <div class="field">
+        <label for="c-descricao">Descrição</label>
+        <textarea id="c-descricao" name="descricao" maxlength="500"></textarea>
+      </div>
 
 
-  /* FILTROS */
+      <fieldset class="fieldset">
 
-  document.querySelectorAll(".chip").forEach(chip => {
-    chip.addEventListener("click", () => {
-      filter = chip.dataset.filter;
+        <legend>📄 Certificado</legend>
 
-      document.querySelectorAll(".chip").forEach(c =>
-        c.setAttribute("aria-pressed", String(c === chip))
-      );
+        <div class="current-file" id="c-cert-atual"></div>
 
-      renderGrid();
-    });
-  });
+        <div class="field">
+          <label for="c-arquivo">Enviar arquivo</label>
+          <input id="c-arquivo" name="arquivo" type="file" accept=".pdf,.png,.jpg,.jpeg,.webp,application/pdf,image/png,image/jpeg,image/webp">
+          <small class="field-help">PDF, PNG, JPG ou WEBP, até 20 MB. É criptografado antes de sair do seu navegador.</small>
+        </div>
 
-  document.getElementById("search").addEventListener("input", renderGrid);
+        <label class="check" id="c-remover-wrap">
+          <input type="checkbox" id="c-remover" name="remover">
+          <span>Remover o certificado atual</span>
+        </label>
+
+        <label class="check">
+          <input type="checkbox" id="c-publico" name="publico">
+          <span>
+            Mostrar também no portfólio público
+            <small class="field-help">O arquivo fica visível para qualquer pessoa, sem criptografia, e o card no portfólio passa a ter o link "Ver certificado".</small>
+          </span>
+        </label>
+
+        <div class="field" id="c-caminho-wrap">
+          <label for="c-caminho">Endereço público</label>
+          <input id="c-caminho" name="caminhoPublico" spellcheck="false" placeholder="certificados/nome-do-curso.pdf">
+        </div>
+
+      </fieldset>
 
 
-  /* AUTENTICAÇÃO + DADOS */
+      <div class="field">
+        <label for="c-links">Links (um por linha: <code>Rótulo | https://...</code>)</label>
+        <textarea id="c-links" name="links" spellcheck="false" placeholder="AVA | https://ava.instituicao.edu.br"></textarea>
+      </div>
 
-  const sb = window.getSupabase();
+      <div class="field">
+        <label for="c-anotacoes">Anotações</label>
+        <textarea id="c-anotacoes" name="anotacoes" maxlength="5000"></textarea>
+      </div>
 
-  if (!sb) {
-    location.replace(LOGIN_URL);
-  } else {
-    start();
-  }
+      <div class="field">
+        <label for="c-ordem">Ordem de exibição</label>
+        <input id="c-ordem" name="ordem" type="number" step="1">
+        <small class="field-help">Menor aparece primeiro.</small>
+      </div>
 
-  async function start() {
-    const { data: { session } } = await sb.auth.getSession();
+    </div>
 
-    if (!session) {
-      location.replace(LOGIN_URL);
-      return;
-    }
+    <div class="dialog-foot">
+      <button type="button" class="btn btn-danger btn-sm" id="c-excluir">Excluir curso</button>
+      <button type="button" class="btn btn-ghost btn-sm" data-close>Cancelar</button>
+      <button type="submit" class="btn btn-primary btn-sm">Salvar e publicar</button>
+    </div>
 
-    const email = session.user.email || "";
-    document.getElementById("user-email").textContent = email;
-    document.getElementById("user-avatar").textContent = email.charAt(0) || "?";
+  </form>
 
-    document.body.classList.remove("auth-pending");
+</dialog>
 
-    // Saiu em outra aba ou o token expirou
-    sb.auth.onAuthStateChange((event, s) => {
-      if (event === "SIGNED_OUT" || !s) {
-        location.replace(LOGIN_URL);
-      }
-    });
 
-    await loadCourses();
-  }
+<!-- =========================================================
+     DIÁLOGO: TOKEN
+========================================================= -->
 
-  async function loadCourses() {
-    const { data, error } = await sb
-      .from("pos_graduacoes")
-      .select("*")
-      .order("ordem", { ascending: true })
-      .order("titulo", { ascending: true });
+<dialog id="dlg-token" class="small" aria-labelledby="dlg-token-title">
 
-    if (error) {
-      showAlert(
-        "error",
-        "Não foi possível carregar os cursos. " +
-        "Verifique se o script supabase/setup.sql foi executado " +
-        "e se seu e-mail está na tabela acesso_permitido."
-      );
-      courses = [];
-    } else {
-      courses = data || [];
-    }
+  <form id="form-token" novalidate>
 
-    renderStats();
-    renderGrid();
-  }
+    <div class="dialog-head">
+      <h2 id="dlg-token-title">Token do GitHub</h2>
+      <button type="button" class="dialog-close" data-close aria-label="Fechar">✕</button>
+    </div>
 
-  document.getElementById("logout").addEventListener("click", async () => {
-    await sb.auth.signOut();
-    location.replace(LOGIN_URL);
-  });
+    <div class="dialog-body">
 
-</script>
+      <div class="alert" data-alert role="alert"></div>
+
+      <p class="text-block">
+        Para gravar alterações e enviar certificados é preciso um token
+        <em>fine-grained</em> com acesso só ao repositório <strong>pos</strong>
+        e permissão <strong>Contents: Read and write</strong>.
+      </p>
+
+      <div class="field">
+        <label for="t-token">Token</label>
+        <input id="t-token" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_...">
+        <small class="field-help">
+          <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">Criar token ↗</a>
+        </small>
+      </div>
+
+      <label class="check">
+        <input type="checkbox" id="t-lembrar">
+        <span>Lembrar neste dispositivo (guardado criptografado com a sua senha)</span>
+      </label>
+
+    </div>
+
+    <div class="dialog-foot">
+      <button type="button" class="btn btn-danger btn-sm" id="t-esquecer">Esquecer token</button>
+      <button type="button" class="btn btn-ghost btn-sm" data-close>Cancelar</button>
+      <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+    </div>
+
+  </form>
+
+</dialog>
+
+
+<!-- =========================================================
+     DIÁLOGO: ALTERAR SENHA
+========================================================= -->
+
+<dialog id="dlg-password" class="small" aria-labelledby="dlg-password-title">
+
+  <form id="form-password" novalidate>
+
+    <input type="text" name="username" autocomplete="username" value="area-academica" hidden>
+
+    <div class="dialog-head">
+      <h2 id="dlg-password-title">Alterar senha</h2>
+      <button type="button" class="dialog-close" data-close aria-label="Fechar">✕</button>
+    </div>
+
+    <div class="dialog-body">
+
+      <div class="alert" data-alert role="alert"></div>
+
+      <div class="field">
+        <label for="p-atual">Senha atual</label>
+        <input id="p-atual" type="password" autocomplete="current-password">
+      </div>
+
+      <div class="field">
+        <label for="p-nova">Nova senha</label>
+        <input id="p-nova" type="password" autocomplete="new-password" minlength="10">
+        <small class="field-help">Mínimo de 10 caracteres. Todos os certificados serão criptografados de novo.</small>
+      </div>
+
+      <div class="field">
+        <label for="p-confirmar">Confirmar nova senha</label>
+        <input id="p-confirmar" type="password" autocomplete="new-password">
+      </div>
+
+    </div>
+
+    <div class="dialog-foot">
+      <button type="button" class="btn btn-ghost btn-sm" data-close>Cancelar</button>
+      <button type="submit" class="btn btn-primary btn-sm">Alterar senha</button>
+    </div>
+
+  </form>
+
+</dialog>
+
+
+<script src="cofre.js"></script>
+<script src="painel.js"></script>
 
 </body>
 </html>

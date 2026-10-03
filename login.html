@@ -4,247 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'none'; form-action 'self'"
+  >
 
   <title>Área Acadêmica | Wigor Pires de Araújo</title>
 
   <link rel="stylesheet" href="academico.css">
-
-  <style>
-    body {
-      display: grid;
-      grid-template-columns: 1.05fr 1fr;
-    }
-
-    /* ---------- Painel lateral ---------- */
-
-    .side {
-      position: relative;
-      overflow: hidden;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-
-      padding: 40px 48px;
-
-      background:
-        radial-gradient(circle at 15% 15%, rgba(255, 255, 255, .16), transparent 40%),
-        linear-gradient(145deg, #1d4ed8 0%, #2563eb 45%, #0f172a 100%);
-      color: #fff;
-    }
-
-    .side::after {
-      content: "";
-      position: absolute;
-      right: -120px;
-      bottom: -120px;
-
-      width: 380px;
-      height: 380px;
-
-      border: 60px solid rgba(255, 255, 255, .06);
-      border-radius: 50%;
-    }
-
-    .side .logo {
-      font-size: 1.35rem;
-      font-weight: 850;
-      letter-spacing: -.5px;
-    }
-
-    .side .logo span {
-      color: #93c5fd;
-    }
-
-    .side-content {
-      position: relative;
-      z-index: 1;
-      max-width: 460px;
-    }
-
-    .side-content .badge {
-      display: inline-block;
-      margin-bottom: 18px;
-      padding: 6px 12px;
-
-      background: rgba(255, 255, 255, .14);
-      border: 1px solid rgba(255, 255, 255, .25);
-      border-radius: 999px;
-
-      font-size: .8rem;
-      font-weight: 700;
-    }
-
-    .side-content h1 {
-      font-size: clamp(2rem, 3.2vw, 2.8rem);
-      line-height: 1.12;
-      letter-spacing: -1.2px;
-      margin-bottom: 16px;
-    }
-
-    .side-content p {
-      color: rgba(255, 255, 255, .82);
-      font-size: 1.02rem;
-    }
-
-    .side-list {
-      list-style: none;
-      margin-top: 28px;
-      display: grid;
-      gap: 12px;
-    }
-
-    .side-list li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: rgba(255, 255, 255, .9);
-      font-size: .95rem;
-    }
-
-    .side-list li::before {
-      content: "✓";
-      display: grid;
-      place-items: center;
-
-      width: 24px;
-      height: 24px;
-      flex-shrink: 0;
-
-      background: rgba(255, 255, 255, .16);
-      border-radius: 50%;
-
-      font-size: .75rem;
-      font-weight: 800;
-    }
-
-    .side-footer {
-      position: relative;
-      z-index: 1;
-      font-size: .82rem;
-      color: rgba(255, 255, 255, .65);
-    }
-
-    /* ---------- Formulário ---------- */
-
-    .main {
-      display: flex;
-      flex-direction: column;
-      padding: 28px 32px;
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-
-      color: var(--text-secondary);
-      font-size: .9rem;
-      font-weight: 650;
-    }
-
-    .back-link:hover {
-      color: var(--primary);
-    }
-
-    .form-wrap {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 32px 0;
-    }
-
-    .card {
-      width: min(420px, 100%);
-      padding: 36px 32px;
-
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .card-icon {
-      display: grid;
-      place-items: center;
-
-      width: 52px;
-      height: 52px;
-      margin-bottom: 18px;
-
-      background: var(--primary-light);
-      border-radius: 14px;
-
-      font-size: 1.5rem;
-    }
-
-    .card h2 {
-      font-size: 1.55rem;
-      letter-spacing: -.6px;
-      line-height: 1.2;
-    }
-
-    .card .subtitle {
-      margin: 6px 0 24px;
-      color: var(--text-secondary);
-      font-size: .93rem;
-    }
-
-    .row-between {
-      display: flex;
-      justify-content: flex-end;
-      margin: -6px 0 20px;
-    }
-
-    .view {
-      display: none;
-    }
-
-    .view.active {
-      display: block;
-    }
-
-    .hint {
-      margin-top: 20px;
-      text-align: center;
-      color: var(--text-secondary);
-      font-size: .82rem;
-    }
-
-    /* ---------- Responsivo ---------- */
-
-    @media (max-width: 900px) {
-      body {
-        grid-template-columns: 1fr;
-      }
-
-      .side {
-        display: none;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .main {
-        padding: 20px 16px;
-      }
-
-      .card {
-        padding: 28px 20px;
-      }
-    }
-  </style>
 </head>
 
 
-<body>
+<body class="login-page">
 
 <!-- =========================================================
      PAINEL LATERAL
@@ -252,7 +24,7 @@
 
 <aside class="side">
 
-  <a href="index.html" class="logo">
+  <a href="index.html" class="side-logo">
     Wigor<span>.</span>
   </a>
 
@@ -263,14 +35,14 @@
     <h1>Pós-graduações, em um só lugar.</h1>
 
     <p>
-      Acompanhamento das especializações e MBAs:
-      andamento, materiais, anotações e certificados.
+      Andamento, materiais, anotações e certificados
+      das especializações e graduações.
     </p>
 
     <ul class="side-list">
       <li>Progresso de cada curso</li>
-      <li>Materiais e links organizados</li>
-      <li>Acesso restrito e protegido</li>
+      <li>Certificados guardados com segurança</li>
+      <li>Criptografia AES-256 no próprio navegador</li>
     </ul>
 
   </div>
@@ -283,10 +55,10 @@
 
 
 <!-- =========================================================
-     FORMULÁRIO
+     FORMULÁRIOS
 ========================================================= -->
 
-<main class="main">
+<main class="login-main">
 
   <div class="topbar">
 
@@ -297,7 +69,7 @@
     <button
       class="theme-button"
       type="button"
-      onclick="toggleTheme()"
+      id="theme"
       title="Alternar tema"
       aria-label="Alternar tema claro e escuro"
     >
@@ -309,35 +81,42 @@
 
   <div class="form-wrap">
 
-    <div class="card">
+    <div class="login-card">
 
       <div id="alert" class="alert" role="alert" aria-live="polite"></div>
 
 
-      <!-- LOGIN -->
+      <!-- CARREGANDO -->
 
-      <section id="view-login" class="view active">
+      <section id="view-loading" class="view active" aria-label="Carregando">
+        <div class="loading-box">
+          <span class="spinner spinner-dark"></span>
+        </div>
+      </section>
+
+
+      <!-- ENTRAR -->
+
+      <section id="view-login" class="view">
 
         <div class="card-icon">🔐</div>
 
         <h2>Entrar</h2>
 
         <p class="subtitle">
-          Acesse o painel das pós-graduações.
+          Digite a senha da área acadêmica.
         </p>
 
         <form id="form-login" novalidate>
 
-          <div class="field">
-            <label for="email">E-mail</label>
-            <input
-              id="email"
-              type="email"
-              autocomplete="email"
-              placeholder="seu@email.com"
-              required
-            >
-          </div>
+          <!-- Ajuda gerenciadores de senha a associar a credencial -->
+          <input
+            type="text"
+            name="username"
+            autocomplete="username"
+            value="area-academica"
+            hidden
+          >
 
           <div class="field">
             <label for="password">Senha</label>
@@ -346,7 +125,6 @@
                 id="password"
                 type="password"
                 autocomplete="current-password"
-                placeholder="••••••••"
                 required
               >
               <button
@@ -358,16 +136,6 @@
             </div>
           </div>
 
-          <div class="row-between">
-            <button
-              type="button"
-              class="link-button"
-              onclick="showView('forgot')"
-            >
-              Esqueci minha senha
-            </button>
-          </div>
-
           <button type="submit" class="btn btn-primary btn-block">
             Entrar
           </button>
@@ -375,7 +143,9 @@
         </form>
 
         <p class="hint">
-          Acesso restrito. Não há cadastro público.
+          <button type="button" class="link-button" data-view="forgot">
+            Esqueci a senha
+          </button>
         </p>
 
       </section>
@@ -385,39 +155,28 @@
 
       <section id="view-forgot" class="view">
 
-        <div class="card-icon">✉️</div>
+        <div class="card-icon">🧩</div>
 
-        <h2>Recuperar senha</h2>
+        <h2>Esqueci a senha</h2>
 
         <p class="subtitle">
-          Enviaremos um link para redefinir sua senha.
+          Por segurança, a senha não fica guardada em lugar nenhum,
+          então não dá para recuperá-la.
         </p>
 
-        <form id="form-forgot" novalidate>
+        <p class="text-block">
+          Você pode <strong>recriar a área acadêmica</strong> com uma nova senha.
+          Os cursos voltam para a lista inicial e os certificados enviados
+          são apagados (os publicados no portfólio continuam lá).
+          É preciso o token do GitHub.
+        </p>
 
-          <div class="field">
-            <label for="forgot-email">E-mail</label>
-            <input
-              id="forgot-email"
-              type="email"
-              autocomplete="email"
-              placeholder="seu@email.com"
-              required
-            >
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-block">
-            Enviar link
-          </button>
-
-        </form>
+        <button type="button" class="btn btn-ghost btn-block" id="go-reset">
+          Recriar com nova senha
+        </button>
 
         <p class="hint">
-          <button
-            type="button"
-            class="link-button"
-            onclick="showView('login')"
-          >
+          <button type="button" class="link-button" data-view="login">
             ← Voltar para o login
           </button>
         </p>
@@ -425,19 +184,27 @@
       </section>
 
 
-      <!-- NOVA SENHA (após clicar no link do e-mail) -->
+      <!-- CONFIGURAR (primeiro acesso ou recriação) -->
 
-      <section id="view-reset" class="view">
+      <section id="view-setup" class="view">
 
-        <div class="card-icon">🔑</div>
+        <div class="card-icon">🛠️</div>
 
-        <h2>Nova senha</h2>
+        <h2 id="setup-title">Configurar acesso</h2>
 
-        <p class="subtitle">
-          Escolha uma nova senha com pelo menos 8 caracteres.
+        <p class="subtitle" id="setup-subtitle">
+          Primeiro acesso: defina a senha da área acadêmica.
         </p>
 
-        <form id="form-reset" novalidate>
+        <form id="form-setup" novalidate>
+
+          <input
+            type="text"
+            name="username"
+            autocomplete="username"
+            value="area-academica"
+            hidden
+          >
 
           <div class="field">
             <label for="new-password">Nova senha</label>
@@ -446,7 +213,7 @@
                 id="new-password"
                 type="password"
                 autocomplete="new-password"
-                minlength="8"
+                minlength="10"
                 required
               >
               <button
@@ -456,6 +223,10 @@
                 aria-label="Mostrar senha"
               >👁</button>
             </div>
+            <div class="strength" aria-hidden="true"><div id="strength-bar"></div></div>
+            <small class="field-help" id="strength-text">
+              Mínimo de 10 caracteres. Uma frase longa é o ideal.
+            </small>
           </div>
 
           <div class="field">
@@ -464,16 +235,52 @@
               id="confirm-password"
               type="password"
               autocomplete="new-password"
-              minlength="8"
               required
             >
           </div>
 
+          <div class="field">
+            <label for="token">Token do GitHub</label>
+            <input
+              id="token"
+              type="password"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="github_pat_..."
+              required
+            >
+            <small class="field-help">
+              Token <em>fine-grained</em> com acesso só ao repositório
+              <strong>pos</strong> e permissão <strong>Contents: Read and write</strong>.
+              <a
+                href="https://github.com/settings/personal-access-tokens/new"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Criar token ↗</a>
+            </small>
+          </div>
+
+          <label class="check">
+            <input type="checkbox" id="remember-token">
+            <span>Lembrar o token neste dispositivo (guardado criptografado)</span>
+          </label>
+
+          <label class="check" id="reset-confirm-wrap" hidden>
+            <input type="checkbox" id="reset-confirm">
+            <span>Entendo que os dados e certificados atuais serão apagados.</span>
+          </label>
+
           <button type="submit" class="btn btn-primary btn-block">
-            Salvar nova senha
+            Criar área acadêmica
           </button>
 
         </form>
+
+        <p class="hint" id="setup-back" hidden>
+          <button type="button" class="link-button" data-view="login">
+            ← Voltar para o login
+          </button>
+        </p>
 
       </section>
 
@@ -484,263 +291,8 @@
 </main>
 
 
-<!-- =========================================================
-     JAVASCRIPT
-========================================================= -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js"></script>
-
-<script>
-
-  const PANEL_URL = "area-academica.html";
-
-  document.getElementById("year").textContent =
-    new Date().getFullYear();
-
-
-  /* TEMA (compartilhado com o portfólio) */
-
-  function toggleTheme() {
-    document.body.classList.toggle("dark");
-
-    localStorage.setItem(
-      "portfolio-theme",
-      document.body.classList.contains("dark") ? "dark" : "light"
-    );
-  }
-
-  if (localStorage.getItem("portfolio-theme") === "dark") {
-    document.body.classList.add("dark");
-  }
-
-
-  /* VIEWS E ALERTAS */
-
-  const alertBox = document.getElementById("alert");
-
-  function showView(name) {
-    document.querySelectorAll(".view").forEach(v =>
-      v.classList.toggle("active", v.id === "view-" + name)
-    );
-
-    hideAlert();
-
-    const firstInput =
-      document.querySelector("#view-" + name + " input");
-
-    if (firstInput) firstInput.focus();
-  }
-
-  function showAlert(type, message) {
-    alertBox.className = "alert alert-" + type + " show";
-    alertBox.innerHTML = message;
-  }
-
-  function hideAlert() {
-    alertBox.className = "alert";
-    alertBox.textContent = "";
-  }
-
-  function setLoading(form, loading, label) {
-    const btn = form.querySelector("button[type=submit]");
-
-    if (loading) {
-      btn.dataset.label = btn.textContent.trim();
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> ' + label;
-    } else {
-      btn.disabled = false;
-      btn.textContent = btn.dataset.label || btn.textContent;
-    }
-  }
-
-  function translateError(error) {
-    const msg = (error && error.message || "").toLowerCase();
-
-    if (msg.includes("invalid login credentials"))
-      return "E-mail ou senha incorretos.";
-    if (msg.includes("email not confirmed"))
-      return "E-mail ainda não confirmado. Verifique sua caixa de entrada.";
-    if (msg.includes("rate limit") || msg.includes("too many"))
-      return "Muitas tentativas. Aguarde alguns minutos e tente novamente.";
-    if (msg.includes("should be different"))
-      return "A nova senha deve ser diferente da atual.";
-    if (msg.includes("password should be at least"))
-      return "A senha é muito curta.";
-    if (msg.includes("failed to fetch") || msg.includes("network"))
-      return "Falha de conexão. Verifique sua internet.";
-
-    return "Não foi possível concluir. Tente novamente.";
-  }
-
-  const isEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-
-
-  /* MOSTRAR / OCULTAR SENHA */
-
-  document.querySelectorAll(".toggle-password").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const input = document.getElementById(btn.dataset.target);
-      const show = input.type === "password";
-
-      input.type = show ? "text" : "password";
-      btn.textContent = show ? "🙈" : "👁";
-      btn.setAttribute("aria-label", show ? "Ocultar senha" : "Mostrar senha");
-    });
-  });
-
-
-  /* SUPABASE */
-
-  const sb = window.getSupabase();
-
-  if (!sb) {
-    showAlert(
-      "warning",
-      "Login ainda não configurado: preencha a URL e a anon key " +
-      "em <code>supabase-config.js</code>."
-    );
-
-    document
-      .querySelectorAll("form button[type=submit]")
-      .forEach(b => (b.disabled = true));
-  } else {
-    init();
-  }
-
-
-  async function init() {
-
-    // Link de recuperação de senha: o Supabase dispara PASSWORD_RECOVERY
-    const isRecovery = /type=recovery/.test(location.hash);
-
-    sb.auth.onAuthStateChange(event => {
-      if (event === "PASSWORD_RECOVERY") {
-        showView("reset");
-      }
-    });
-
-    if (isRecovery) {
-      showView("reset");
-      return;
-    }
-
-    // Já está logado? Vai direto para o painel
-    const { data } = await sb.auth.getSession();
-
-    if (data.session) {
-      location.replace(PANEL_URL);
-    }
-  }
-
-
-  /* LOGIN */
-
-  document.getElementById("form-login").addEventListener("submit", async e => {
-    e.preventDefault();
-    if (!sb) return;
-
-    const form = e.currentTarget;
-    const email = form.email.value.trim();
-    const password = form.password.value;
-
-    if (!isEmail(email) || !password) {
-      showAlert("error", "Informe um e-mail válido e a senha.");
-      return;
-    }
-
-    hideAlert();
-    setLoading(form, true, "Entrando...");
-
-    const { error } = await sb.auth.signInWithPassword({ email, password });
-
-    if (error) {
-      setLoading(form, false);
-      showAlert("error", translateError(error));
-      form.password.select();
-      return;
-    }
-
-    location.replace(PANEL_URL);
-  });
-
-
-  /* ESQUECI A SENHA */
-
-  document.getElementById("form-forgot").addEventListener("submit", async e => {
-    e.preventDefault();
-    if (!sb) return;
-
-    const form = e.currentTarget;
-    const email = form["forgot-email"].value.trim();
-
-    if (!isEmail(email)) {
-      showAlert("error", "Informe um e-mail válido.");
-      return;
-    }
-
-    hideAlert();
-    setLoading(form, true, "Enviando...");
-
-    const redirectTo =
-      location.origin + location.pathname;
-
-    const { error } =
-      await sb.auth.resetPasswordForEmail(email, { redirectTo });
-
-    setLoading(form, false);
-
-    if (error) {
-      showAlert("error", translateError(error));
-      return;
-    }
-
-    // Mensagem neutra: não revela se o e-mail existe
-    showAlert(
-      "success",
-      "Se este e-mail tiver acesso, você receberá um link em instantes."
-    );
-  });
-
-
-  /* NOVA SENHA */
-
-  document.getElementById("form-reset").addEventListener("submit", async e => {
-    e.preventDefault();
-    if (!sb) return;
-
-    const form = e.currentTarget;
-    const password = form["new-password"].value;
-    const confirm = form["confirm-password"].value;
-
-    if (password.length < 8) {
-      showAlert("error", "A senha deve ter pelo menos 8 caracteres.");
-      return;
-    }
-
-    if (password !== confirm) {
-      showAlert("error", "As senhas não coincidem.");
-      return;
-    }
-
-    hideAlert();
-    setLoading(form, true, "Salvando...");
-
-    const { error } = await sb.auth.updateUser({ password });
-
-    if (error) {
-      setLoading(form, false);
-      showAlert("error", translateError(error));
-      return;
-    }
-
-    history.replaceState(null, "", location.pathname);
-    showAlert("success", "Senha atualizada! Redirecionando...");
-    setTimeout(() => location.replace(PANEL_URL), 1200);
-  });
-
-</script>
+<script src="cofre.js"></script>
+<script src="login.js"></script>
 
 </body>
 </html>
