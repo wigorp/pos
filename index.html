@@ -1,511 +1,1457 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pós-Graduação</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Wigor Pires | Logística, Supply Chain, Dados e Tecnologia</title>
+
+  <meta
+    name="description"
+    content="Portfólio profissional de Wigor Pires. Logística, Supply Chain, TMS, Dados, Business Intelligence, Inteligência Artificial e Tecnologia."
+  >
+
   <style>
+    /* =====================================================
+       CONFIGURAÇÕES GERAIS
+    ===================================================== */
+
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-2: #f1f5f9;
+      --text: #0f172a;
+      --text-secondary: #64748b;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 16px;
+    }
+
+    body.dark {
+      --bg: #020617;
+      --surface: #0f172a;
+      --surface-2: #1e293b;
+      --text: #f8fafc;
+      --text-secondary: #94a3b8;
+      --border: #334155;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: Arial, sans-serif;
-      transition: background-color 0.3s, color 0.3s;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      background-color: #f3f4f6;
-      color: #333;
-      padding: 20px;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1180px, 92%);
+      margin: auto;
+    }
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    body.dark header {
+      background: rgba(2, 6, 23, 0.9);
+    }
+
+    .navbar {
+      min-height: 72px;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      min-height: 100vh;
-      transition: background-color 0.3s, color 0.3s;
+      justify-content: space-between;
+      gap: 20px;
     }
 
-    body.dark-mode {
-      background-color: #121212;
-      color: #e0e0e0;
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 800;
     }
 
-    header.main-header {
-      width: 100%;
-      max-width: 1000px;
+    .logo span {
+      color: var(--primary);
+    }
+
+    nav {
       display: flex;
-      justify-content: center; /* centraliza o título */
+      gap: 24px;
       align-items: center;
-      padding: 15px;
-      background-color: #0073e6;
-      color: white;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      box-sizing: border-box;
-      position: relative; /* para posicionar o botão absoluto */
-      transition: background-color 0.3s;
     }
 
-    body.dark-mode header.main-header {
-      background-color: #005bb5;
+    nav a {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      font-weight: 600;
+      transition: 0.2s;
     }
 
-    header.main-header h1 {
-      font-size: 1.5em;
-      user-select: none;
+    nav a:hover {
+      color: var(--primary);
     }
 
-    #toggleThemeBtn {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: transparent;
-      border: none;
+    .theme-button {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 9px 12px;
       cursor: pointer;
-      color: white;
-      width: 28px;
-      height: 28px;
-      padding: 0;
+      font-size: 18px;
+    }
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+
+    .hero {
+      min-height: 680px;
       display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: rgba(37, 99, 235, 0.12);
+      filter: blur(80px);
+      right: -150px;
+      top: 20px;
+      z-index: -1;
+    }
+
+    .hero-content {
+      max-width: 850px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 100px;
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.7rem, 7vw, 5.5rem);
+      line-height: 1.02;
+      letter-spacing: -3px;
+      margin-bottom: 24px;
+    }
+
+    .gradient {
+      background: linear-gradient(90deg, #2563eb, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      max-width: 760px;
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: color 0.3s;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 700;
+      transition: 0.2s;
+      border: 1px solid transparent;
     }
 
-    #toggleThemeBtn svg {
-      width: 24px;
-      height: 24px;
-      fill: currentColor;
-    }
-
-    #toggleThemeBtn:hover {
-      color: #cce4ff;
-    }
-
-    body.dark-mode #toggleThemeBtn {
-      color: #80b3ff;
-    }
-
-    body.dark-mode #toggleThemeBtn:hover {
-      color: #aaddff;
-    }
-
-    .main-content {
-      display: flex;
-      max-width: 1000px;
-      width: 100%;
-      gap: 20px;
-      align-items: flex-start;
-    }
-
-    .filter-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      width: 180px;
-      align-items: flex-start;
-    }
-
-    .filter-buttons button {
-      background-color: #0073e6;
+    .button-primary {
+      background: var(--primary);
       color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
-      width: 100%;
-      box-sizing: border-box;
-      font-size: 1em;
     }
 
-    .filter-buttons button:hover {
-      background-color: #005bb5;
+    .button-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
     }
 
-    body.dark-mode .filter-buttons button {
-      background-color: #005bb5;
-      color: #cce4ff;
+    .button-secondary {
+      border-color: var(--border);
+      background: var(--surface);
     }
 
-    body.dark-mode .filter-buttons button:hover {
-      background-color: #003f7f;
+    .button-secondary:hover {
+      border-color: var(--primary);
+      color: var(--primary);
     }
 
-    .courses {
-      flex: 1;
+    /* =====================================================
+       SEÇÕES
+    ===================================================== */
+
+    section {
+      padding: 90px 0;
+    }
+
+    .section-label {
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 14px;
+      letter-spacing: -1px;
+    }
+
+    .section-description {
+      color: var(--text-secondary);
+      max-width: 760px;
+      margin-bottom: 40px;
+    }
+
+    /* =====================================================
+       SOBRE
+    ===================================================== */
+
+    .about-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .about-text p {
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+
+    .numbers {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .number-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+    }
+
+    .number-card strong {
+      display: block;
+      color: var(--primary);
+      font-size: 2rem;
+    }
+
+    .number-card span {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* =====================================================
+       EXPERIÊNCIA
+    ===================================================== */
+
+    .timeline {
+      position: relative;
+      max-width: 900px;
+    }
+
+    .timeline-item {
+      border-left: 3px solid var(--primary);
+      padding: 0 0 40px 28px;
       position: relative;
     }
 
-    .course-card {
-      display: none;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      padding: 20px;
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      width: 13px;
+      height: 13px;
+      background: var(--primary);
+      border-radius: 50%;
+      left: -8px;
+      top: 5px;
+    }
+
+    .timeline-item h3 {
+      font-size: 1.25rem;
+    }
+
+    .timeline-company {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .timeline-date {
+      display: block;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin: 5px 0 12px;
+    }
+
+    .timeline-item p {
+      color: var(--text-secondary);
+    }
+
+    /* =====================================================
+       CARDS
+    ===================================================== */
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 25px;
+      transition: 0.25s;
+      box-shadow: var(--shadow);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: var(--primary);
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(37,99,235,0.1);
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 16px;
+    }
+
+    .tag {
+      padding: 5px 9px;
+      background: var(--surface-2);
+      border-radius: 7px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* =====================================================
+       CERTIFICADOS
+    ===================================================== */
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .filter {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      padding: 9px 15px;
+      border-radius: 100px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .filter.active,
+    .filter:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    .certificate {
+      position: relative;
+    }
+
+    .certificate .institution {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+    }
+
+    .certificate-link {
+      display: inline-block;
+      margin-top: 18px;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .status {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 4px 9px;
+      border-radius: 20px;
+      background: rgba(22,163,74,.12);
+      color: var(--success);
+      font-size: .75rem;
+      font-weight: 700;
+    }
+
+    /* =====================================================
+       COMPETÊNCIAS
+    ===================================================== */
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .skill {
+      padding: 12px 17px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    /* =====================================================
+       CONTATO
+    ===================================================== */
+
+    .contact-box {
+      background: linear-gradient(135deg, #1d4ed8, #0f172a);
+      color: white;
+      padding: 60px;
+      border-radius: 25px;
       text-align: center;
-      transition: transform 0.3s ease, background-color 0.3s, color 0.3s;
     }
 
-    .course-card:hover {
-      transform: translateY(-5px);
+    .contact-box h2 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
     }
 
-    .course-card a {
-      text-decoration: none;
-      color: #0073e6;
-      transition: color 0.3s;
+    .contact-box p {
+      opacity: .8;
+      margin-bottom: 25px;
     }
 
-    .course-card h2 {
-      font-size: 1.2em;
-      color: #333;
-    }
+    /* =====================================================
+       FOOTER
+    ===================================================== */
 
-    .certificado {
-      background-color: #229A00;
-      color: white;
-    }
-
-    .boleto {
-      background-color: #FFFF00;
-      color: black;
-    }
-
-    .cursando {
-      background-color: #90D5FF;
-      color: black;
-    }
-
-    .projeto {
-      background-color: #D3B3FF;
-      color: white;
-    }
-
-    body.dark-mode .course-card {
-      background-color: #1e1e1e;
-      box-shadow: 0 4px 12px rgba(255 255 255 / 0.1);
-    }
-
-    body.dark-mode .course-card a {
-      color: #80b3ff;
-    }
-
-    body.dark-mode .certificado {
-      background-color: #1a6f00;
-    }
-
-    body.dark-mode .boleto {
-      background-color: #cfcf0a;
-      color: black;
-    }
-
-    body.dark-mode .cursando {
-      background-color: #5a9cd8;
-      color: black;
-    }
-
-    body.dark-mode .projeto {
-      background-color: #6e4dbf;
-      color: white;
-    }
-
-    .projetos-titulo {
-      grid-column: 1 / -1;
-      font-size: 1.4em;
-      color: white;
-      background-color: #0073e6;
-      margin-top: 20px;
-      border-left: 5px solid #005bb5;
-      padding: 10px 20px;
-      font-weight: bold;
-      border-radius: 8px;
-      width: 100%;
-      box-sizing: border-box;
+    footer {
+      padding: 35px 0;
       text-align: center;
-      transition: background-color 0.3s;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
     }
 
-    body.dark-mode .projetos-titulo {
-      background-color: #005bb5;
-      border-left-color: #003f7f;
+    /* =====================================================
+       RESPONSIVO
+    ===================================================== */
+
+    @media (max-width: 900px) {
+      nav {
+        display: none;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero {
+        min-height: 600px;
+      }
     }
 
     @media (max-width: 600px) {
-      .main-content {
-        flex-direction: column;
-      }
-      .filter-buttons {
-        width: 100% !important;
-        align-items: stretch !important;
-      }
-      .filter-buttons button {
-        width: 100% !important;
-        max-width: none !important;
-      }
-      .courses {
+      .grid {
         grid-template-columns: 1fr;
+      }
+
+      .numbers {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero h1 {
+        letter-spacing: -2px;
+      }
+
+      .contact-box {
+        padding: 40px 20px;
       }
     }
   </style>
 </head>
+
 <body>
-  <header class="main-header">
-    <h1>PÓS-GRADUAÇÃO</h1>
-    <button id="toggleThemeBtn" aria-label="Alternar modo claro/escuro" title="Alternar tema">
-      <!-- Ícone Lua (modo escuro) / Sol (modo claro) via SVG -->
-      <svg id="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Lua (dark mode icon) -->
-        <path id="moon" d="M21 12.79A9 9 0 0112.21 3a7 7 0 109.79 9.79z" fill="currentColor"/>
-        <!-- Sol (light mode icon), inicialmente oculto -->
-        <circle id="sun" cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2" fill="none" style="display:none"/>
-        <g id="sunrays" stroke="currentColor" stroke-width="2" style="display:none">
-          <line x1="12" y1="1" x2="12" y2="3"/>
-          <line x1="12" y1="21" x2="12" y2="23"/>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-          <line x1="1" y1="12" x2="3" y2="12"/>
-          <line x1="21" y1="12" x2="23" y2="12"/>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-        </g>
-      </svg>
+
+<!-- =====================================================
+     MENU
+===================================================== -->
+
+<header>
+  <div class="container navbar">
+
+    <a class="logo" href="#inicio">
+      Wigor<span>.</span>
+    </a>
+
+    <nav>
+      <a href="#sobre">Sobre</a>
+      <a href="#experiencia">Experiência</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#formacao">Formação</a>
+      <a href="#certificados">Certificações</a>
+      <a href="#competencias">Competências</a>
+      <a href="#contato">Contato</a>
+    </nav>
+
+    <button class="theme-button" onclick="toggleTheme()" title="Alterar tema">
+      ◐
     </button>
-  </header>
 
-  <div class="main-content">
-    <div class="filter-buttons">
-      <button onclick="filtrar('cursando')">Cursando</button>
-      <button onclick="filtrar('projeto')">Projeto</button>
-      <button onclick="filtrar('certificado')">Concluído</button>
-      <button onclick="filtrar('todos')">Todos</button>
-      <button onclick="filtrar('boleto')">Boleto</button>
+  </div>
+</header>
 
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<main>
+
+<section class="hero" id="inicio">
+  <div class="container">
+
+    <div class="hero-content">
+
+      <div class="badge">
+        Logística • Supply Chain • Dados • Tecnologia
+      </div>
+
+      <h1>
+        Wigor Pires
+        <br>
+        <span class="gradient">
+          Transformando operações através de dados e tecnologia.
+        </span>
+      </h1>
+
+      <p>
+        Profissional com experiência em logística, transportes,
+        gestão operacional, TMS, indicadores, Business Intelligence,
+        automação e desenvolvimento de soluções tecnológicas aplicadas
+        ao negócio.
+      </p>
+
+      <div class="hero-buttons">
+
+        <a href="#projetos" class="button button-primary">
+          Ver projetos
+        </a>
+
+        <a href="#certificados" class="button button-secondary">
+          Certificações
+        </a>
+
+        <!-- COLOQUE SEU LINK -->
+        <a
+          href="https://www.linkedin.com/"
+          target="_blank"
+          class="button button-secondary"
+        >
+          LinkedIn ↗
+        </a>
+
+        <!-- COLOQUE SEU LINK -->
+        <a
+          href="https://github.com/wigorp"
+          target="_blank"
+          class="button button-secondary"
+        >
+          GitHub ↗
+        </a>
+
+      </div>
 
     </div>
 
-    <section class="courses" id="courseContainer">
-
-      <div class="course-card certificado">
-        <a href="https://kroton.platosedu.io/lms/m/aluno/index/3243688" target="_blank" rel="noopener noreferrer">
-          <h2>POS - Anhanguera -  Liderança e Gestão de Equipes de Alta Performance</h2>
-        </a>
-      </div>
-      <div class="course-card certificado">
-        <a href="https://kroton.platosedu.io/lms/m/aluno/index/3226961" target="_blank" rel="noopener noreferrer">
-          <h2>POS - Anhanguera - Gestão e Governança de Tecnologia da Informação</h2>
-        </a>
-      </div>
-      <div class="course-card certificado">
-        <a href="https://kroton.platosedu.io/lms/m/aluno/index/3325325" target="_blank" rel="noopener noreferrer">
-          <h2>POS - Anhanguera - Ciência de Dados e Inteligência Artificial</h2>
-        </a>
-      </div>
-      <div class="course-card certificado">
-        <a href="https://kroton.platosedu.io/lms/m/aluno/index/3303254" target="_blank" rel="noopener noreferrer">
-          <h2>POS - Anhanguera - Inteligência Artificial e Machine Learning</h2>
-        </a>
-      </div>
-      <div class="course-card certificado">
-        <a href="https://infoprod.platosedu.io/v2/lms/login" target="_blank" rel="noopener noreferrer">
-           <h2>POS - Anhanguera - Engenharia de Dados e Inteligência Artificial 2026</h2>
-      </a>
-      </div>
-      <div class="course-card certificado">
-        <a href="https://salavirtual.pucrs.br/" target="_blank" rel="noopener noreferrer">
-          <h2>Epecialização - PUC RS - Como usar DS e AI para otimizar a Logística e as Operações</h2>
-        </a>
-      </div>
-      <div class="course-card certificado">
-        <a href="https://pucprdigital.grupoa.education/plataforma/course/4215916" target="_blank" rel="noopener noreferrer">
-          <h2>Especialização - PUC PR - Arquitetura de Dados 2026</h2>
-        </a>
-      </div>
-
-
-
-        <!-- cursando -->
-      <div class="course-card cursando">
-        <a href="https://alunodigital.anhanguera.com/ead_anhanguera?id=pua_index" target="_blank" rel="noopener noreferrer">
-          <h2>Graduação Engenharia de Software</h2>
-        </a>
-      </div>
-     <div class="course-card cursando">
-        <a href="https://hub.asimov.academy/" target="_blank" rel="noopener noreferrer">
-          <h2>Curso Asimov</h2>
-        </a>
-      </div>     
-      <div class="course-card cursando">
-        <a href="https://pucprdigital.grupoa.education/plataforma/my-enrollments/courses?categoryIds=95248&courseStatus=all" target="_blank" rel="noopener noreferrer">
-          <h2>POS - PUC PR - IA e Negócios: Estratégia, Inovação e Resultados</h2>
-        </a>
-      </div>
-            <div class="course-card cursando">
-        <a href="https://pucprdigital.grupoa.education/plataforma/my-enrollments/courses?categoryIds=965&courseStatus=all" target="_blank" rel="noopener noreferrer">
-          <h2>POS - PUC PR - Gestão de Projetos, Jornada do Cliente e Metodologias Ágeis</h2>
-        </a>
-      </div>
-      
-        <div class="course-card cursando">
-        <a href="https://kroton.platosedu.io/v2/lms/aluno/disciplina/30180618" target="_blank" rel="noopener noreferrer">
-          <h2>POS - Anhanguera - MBA em Gestão de Projetos</h2>
-        </a>
-      </div>
-      <div class="course-card cursando">
-        <a href="https://web.dio.me/home" target="_blank" rel="noopener noreferrer">
-          <h2>DIO.ME</h2>
-        </a>
-      </div>      
-        <div class="course-card cursando">
-        <a href="https://accounts.fluency.io/signin" target="_blank" rel="noopener noreferrer">
-          <h2>Inglês - Fluency Academy</h2>
-        </a>
-      </div>      
-      <div class="course-card cursando">
-        <a href="https://app.englishbay.com.br" rel="noopener noreferrer">
-          <h2>Inglês - Englishbay</h2>
-        </a>
-      </div>     
-
-
-        <!-- BOLETOS -->    
-        <div class="course-card boleto">
-        <a href="https://kroton.platosedu.io/v2/lms/aluno/disciplina/3828409" target="_blank" rel="noopener noreferrer">
-          <h2>POS - Anhanguera - Tecnologia da Informação Aplicada à Logística</h2>
-        </a>
-      </div> 
-
-      <!-- PROJETOS -->
-      <div class="course-card projeto">
-        <a href="https://www.pucminas.br/Pos-Graduacao/IEC/Cursos/Paginas/MobileEngineering_EAD_Especializacao%20e%20Master.aspx?pageID=5343&moda=5&polo=43&curso=1053&situ=1" target="_blank" rel="noopener noreferrer">
-          <h2>PUC MINAS - Desenvolvimento Mobile</h2>
-        </a>
-      </div>        
-      <div class="course-card projeto">
-        <a href="https://pay.hotmart.com/R98854503I" target="_blank" rel="noopener noreferrer">
-          <h2>Prompts para IA</h2>
-        </a>
-      </div>
-      <div class="course-card projeto">
-        <a href="http://zucoescrita.com" target="_blank" rel="noopener noreferrer">
-          <h2>Cursos de Escrita Científica</h2>
-        </a>
-      </div>
-      <div class="course-card projeto">
-        <a href="https://ppgcc.inf.ufg.br/n/192120" target="_blank" rel="noopener noreferrer">
-          <h2>UFG Mestrado - 01/07/2026</h2>
-        </a>
-      </div>
-    </section>
   </div>
-      <div class="course-card projeto">
-        <a href="https://pucprdigital.grupoa.education/plataforma/course/4215993"_blank" rel="noopener noreferrer">
-          <h2>Especialização PUC PR - Big Data e Estratégia de Dados - O Enriquecimento de Bases como Estratégia Competitiva</h2>
-        </a>
-      </div>
-        <div class="course-card projeto">
-        <a href="https://pucprdigital.grupoa.education/plataforma/course/4215895"_blank" rel="noopener noreferrer">
-          <h2>Especialização PUC PR - LGPD: Do Privacy By Design ao Sistema Legado</h2>
-        </a>
-      </div>
-        <div class="course-card projeto">
-        <a href="https://pucprdigital.grupoa.education/plataforma/course/4215894"_blank" rel="noopener noreferrer">
-          <h2>Especialização PUC PR - Segurança da Informação: Gestão de Vulnerabilidades e de Riscos</h2>
-        </a>
-      </div>
-        <div class="course-card projeto">
-        <a href="https://pucprdigital.grupoa.education/plataforma/course/4215981"_blank" rel="noopener noreferrer">
-          <h2>Especialização PUC PR - User Experience: Engajando Usuários e Melhorando Performance</h2>
-        </a>
-      </div>
-  <script>
-    const toggleThemeBtn = document.getElementById('toggleThemeBtn');
-    const moonIcon = document.getElementById('moon');
-    const sunIcon = document.getElementById('sun');
-    const sunRays = document.getElementById('sunrays');
+</section>
 
-    function aplicarTemaSalvo() {
-      const tema = localStorage.getItem('tema');
-      if (tema === 'dark') {
-        document.body.classList.add('dark-mode');
-        // mostrar sol (modo claro = sol), ocultar lua
-        moonIcon.style.display = 'none';
-        sunIcon.style.display = 'block';
-        sunRays.style.display = 'block';
-      } else {
-        document.body.classList.remove('dark-mode');
-        moonIcon.style.display = 'block';
-        sunIcon.style.display = 'none';
-        sunRays.style.display = 'none';
-      }
-    }
+<!-- =====================================================
+     SOBRE
+===================================================== -->
 
-    toggleThemeBtn.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-      if (document.body.classList.contains('dark-mode')) {
-        localStorage.setItem('tema', 'dark');
-        moonIcon.style.display = 'none';
-        sunIcon.style.display = 'block';
-        sunRays.style.display = 'block';
+<section id="sobre">
+  <div class="container">
+
+    <div class="section-label">Sobre mim</div>
+    <h2 class="section-title">Operações + Dados + Tecnologia</h2>
+
+    <div class="about-grid">
+
+      <div class="about-text">
+
+        <p>
+          Minha trajetória profissional combina experiência operacional
+          em logística e transportes com tecnologia, análise de dados e
+          melhoria contínua.
+        </p>
+
+        <p>
+          Atuo na conexão entre operação e tecnologia, utilizando
+          ferramentas como TMS, Business Intelligence, automações,
+          bancos de dados e desenvolvimento de sistemas para melhorar
+          produtividade, controle, visibilidade e tomada de decisão.
+        </p>
+
+        <p>
+          Paralelamente à experiência profissional, mantenho formação
+          contínua em Engenharia de Software, Inteligência Artificial,
+          Ciência de Dados, Gestão, Logística e Governança de TI.
+        </p>
+
+      </div>
+
+      <div class="numbers">
+
+        <div class="number-card">
+          <strong>Logística</strong>
+          <span>Transportes e operações</span>
+        </div>
+
+        <div class="number-card">
+          <strong>Dados</strong>
+          <span>BI e indicadores</span>
+        </div>
+
+        <div class="number-card">
+          <strong>IA</strong>
+          <span>Automação e inteligência</span>
+        </div>
+
+        <div class="number-card">
+          <strong>Tech</strong>
+          <span>Software e integrações</span>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     EXPERIÊNCIA
+===================================================== -->
+
+<section id="experiencia">
+  <div class="container">
+
+    <div class="section-label">Carreira</div>
+    <h2 class="section-title">Experiência profissional</h2>
+
+    <p class="section-description">
+      Experiência em logística, transportes, gestão operacional,
+      implantação de sistemas e melhoria de processos.
+    </p>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+
+        <h3>Coordenador de Logística</h3>
+
+        <div class="timeline-company">
+          Bonfrigo / Bonfrigo Log
+        </div>
+
+        <span class="timeline-date">
+          2026
+        </span>
+
+        <p>
+          Coordenação das operações logísticas e transportes,
+          implantação e evolução de TMS, gestão de transportadores,
+          CT-e, MDF-e, CIOT, frete mínimo, indicadores operacionais,
+          integrações e acompanhamento de performance.
+        </p>
+
+      </div>
+
+      <div class="timeline-item">
+
+        <h3>Analista de Logística</h3>
+
+        <div class="timeline-company">
+          Tabocão
+        </div>
+
+        <span class="timeline-date">
+          2024 — 2025
+        </span>
+
+        <p>
+          Planejamento de transportes, escala de motoristas,
+          roteirização, rastreamento, agendamentos, manutenção,
+          documentação, forecast, indicadores, planilhas e
+          Business Intelligence.
+        </p>
+
+      </div>
+
+      <div class="timeline-item">
+
+        <h3>Experiência em Transportes e Operações</h3>
+
+        <div class="timeline-company">
+          Mira Transporte • REDemob
+        </div>
+
+        <span class="timeline-date">
+          Experiências anteriores
+        </span>
+
+        <p>
+          Atuação em operações de transporte, acompanhamento
+          operacional, processos logísticos e suporte à gestão.
+        </p>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     PROJETOS
+===================================================== -->
+
+<section id="projetos">
+  <div class="container">
+
+    <div class="section-label">Portfólio</div>
+
+    <h2 class="section-title">
+      Projetos
+    </h2>
+
+    <p class="section-description">
+      Projetos que conectam desenvolvimento de software,
+      dados, automação e operações.
+    </p>
+
+    <div class="grid">
+
+      <article class="card">
+
+        <div class="card-icon">🍰</div>
+
+        <h3>Passion Doceria</h3>
+
+        <p>
+          Plataforma completa de pedidos e gestão para docerias,
+          integrando pagamentos, WhatsApp, delivery, emissão fiscal
+          e operação do PDV.
+        </p>
+
+        <div class="tags">
+          <span class="tag">Next.js</span>
+          <span class="tag">Supabase</span>
+          <span class="tag">Mercado Pago</span>
+          <span class="tag">WhatsApp</span>
+          <span class="tag">NFC-e</span>
+        </div>
+
+      </article>
+
+      <article class="card">
+
+        <div class="card-icon">🦟</div>
+
+        <h3>DengueMap GO</h3>
+
+        <p>
+          Projeto acadêmico para visualização e acompanhamento
+          de dados relacionados à dengue utilizando mapas,
+          gráficos e indicadores.
+        </p>
+
+        <div class="tags">
+          <span class="tag">Google Maps</span>
+          <span class="tag">Chart.js</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Dados</span>
+        </div>
+
+      </article>
+
+      <article class="card">
+
+        <div class="card-icon">🚚</div>
+
+        <h3>Logística & TMS</h3>
+
+        <p>
+          Projetos de digitalização de processos logísticos,
+          indicadores, transportes, controle de entregas,
+          documentação e integrações operacionais.
+        </p>
+
+        <div class="tags">
+          <span class="tag">TMS</span>
+          <span class="tag">CT-e</span>
+          <span class="tag">MDF-e</span>
+          <span class="tag">CIOT</span>
+          <span class="tag">BI</span>
+        </div>
+
+      </article>
+
+      <article class="card">
+
+        <div class="card-icon">📊</div>
+
+        <h3>Business Intelligence</h3>
+
+        <p>
+          Desenvolvimento de dashboards, indicadores e análises
+          para acompanhamento de operações e suporte à tomada
+          de decisão.
+        </p>
+
+        <div class="tags">
+          <span class="tag">Power BI</span>
+          <span class="tag">Excel</span>
+          <span class="tag">SQL</span>
+          <span class="tag">KPIs</span>
+        </div>
+
+      </article>
+
+      <article class="card">
+
+        <div class="card-icon">🤖</div>
+
+        <h3>Automação & IA</h3>
+
+        <p>
+          Integração de inteligência artificial e automações
+          para atendimento, processamento de informações e
+          execução de fluxos operacionais.
+        </p>
+
+        <div class="tags">
+          <span class="tag">n8n</span>
+          <span class="tag">IA</span>
+          <span class="tag">APIs</span>
+          <span class="tag">Automação</span>
+        </div>
+
+      </article>
+
+      <article class="card">
+
+        <div class="card-icon">🔗</div>
+
+        <h3>Integrações</h3>
+
+        <p>
+          Desenvolvimento de integrações entre sistemas,
+          APIs, bancos de dados e plataformas utilizadas
+          em operações comerciais e logísticas.
+        </p>
+
+        <div class="tags">
+          <span class="tag">REST API</span>
+          <span class="tag">Webhooks</span>
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">Supabase</span>
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- =====================================================
+     FORMAÇÃO
+===================================================== -->
+
+<section id="formacao">
+  <div class="container">
+
+    <div class="section-label">Educação</div>
+
+    <h2 class="section-title">
+      Formação acadêmica
+    </h2>
+
+    <div class="grid">
+
+      <article class="card">
+
+        <div class="card-icon">🎓</div>
+
+        <h3>Engenharia de Software</h3>
+
+        <p>
+          Bacharelado — em andamento.
+        </p>
+
+        <span class="status">Em andamento</span>
+
+      </article>
+
+      <article class="card">
+
+        <div class="card-icon">🎓</div>
+
+        <h3>Desenvolvimento Mobile</h3>
+
+        <p>
+          Graduação Tecnológica.
+        </p>
+
+        <span class="status">Concluído</span>
+
+      </article>
+
+      <article class="card">
+
+        <div class="card-icon">🎓</div>
+
+        <h3>Ciência de Dados e Inteligência Artificial</h3>
+
+        <p>
+          Pós-graduação — Anhanguera.
+        </p>
+
+        <span class="status">Concluído</span>
+
+      </article>
+
+      <article class="card">
+
+        <div class="card-icon">🎓</div>
+
+        <h3>Inteligência Artificial e Machine Learning</h3>
+
+        <p>
+          Pós-graduação — Anhanguera.
+        </p>
+
+        <span class="status">Concluído</span>
+
+      </article>
+
+      <article class="card">
+
+        <div class="card-icon">🎓</div>
+
+        <h3>Gestão e Governança de TI</h3>
+
+        <p>
+          Pós-graduação — Anhanguera.
+        </p>
+
+        <span class="status">Concluído</span>
+
+      </article>
+
+      <article class="card">
+
+        <div class="card-icon">🎓</div>
+
+        <h3>Liderança e Gestão de Equipes</h3>
+
+        <p>
+          Pós-graduação — Anhanguera.
+        </p>
+
+        <span class="status">Concluído</span>
+
+      </article>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- =====================================================
+     CERTIFICADOS
+===================================================== -->
+
+<section id="certificados">
+  <div class="container">
+
+    <div class="section-label">Credenciais</div>
+
+    <h2 class="section-title">
+      Certificações
+    </h2>
+
+    <p class="section-description">
+      Formação complementar em logística, gestão,
+      dados, inteligência artificial e tecnologia.
+    </p>
+
+    <div class="filters">
+
+      <button
+        class="filter active"
+        onclick="filterCertificates('all', this)"
+      >
+        Todos
+      </button>
+
+      <button
+        class="filter"
+        onclick="filterCertificates('logistica', this)"
+      >
+        Logística
+      </button>
+
+      <button
+        class="filter"
+        onclick="filterCertificates('dados', this)"
+      >
+        Dados
+      </button>
+
+      <button
+        class="filter"
+        onclick="filterCertificates('ia', this)"
+      >
+        IA
+      </button>
+
+      <button
+        class="filter"
+        onclick="filterCertificates('gestao', this)"
+      >
+        Gestão
+      </button>
+
+      <button
+        class="filter"
+        onclick="filterCertificates('dev', this)"
+      >
+        Desenvolvimento
+      </button>
+
+    </div>
+
+    <div class="grid" id="certificateGrid">
+
+      <!-- EXEMPLO CERTIFICADO -->
+
+      <article
+        class="card certificate"
+        data-category="ia dados"
+      >
+
+        <div class="institution">
+          Anhanguera
+        </div>
+
+        <h3>
+          Ciência de Dados e Inteligência Artificial
+        </h3>
+
+        <p>
+          Formação em Data Science, análise de dados
+          e aplicações de Inteligência Artificial.
+        </p>
+
+        <span class="status">
+          Concluído
+        </span>
+
+        <!--
+        QUANDO SUBIR O PDF:
+        href="certificados/nome-do-certificado.pdf"
+        -->
+
+        <a
+          href="#"
+          class="certificate-link"
+        >
+          Ver certificado →
+        </a>
+
+      </article>
+
+      <article
+        class="card certificate"
+        data-category="ia"
+      >
+
+        <div class="institution">
+          Anhanguera
+        </div>
+
+        <h3>
+          Inteligência Artificial e Machine Learning
+        </h3>
+
+        <p>
+          Especialização em Inteligência Artificial
+          e aprendizado de máquina.
+        </p>
+
+        <span class="status">
+          Concluído
+        </span>
+
+        <a
+          href="#"
+          class="certificate-link"
+        >
+          Ver certificado →
+        </a>
+
+      </article>
+
+      <article
+        class="card certificate"
+        data-category="gestao"
+      >
+
+        <div class="institution">
+          Anhanguera
+        </div>
+
+        <h3>
+          Gestão e Governança de Tecnologia da Informação
+        </h3>
+
+        <p>
+          Governança, processos, controles e gestão
+          estratégica de tecnologia.
+        </p>
+
+        <span class="status">
+          Concluído
+        </span>
+
+        <a
+          href="#"
+          class="certificate-link"
+        >
+          Ver certificado →
+        </a>
+
+      </article>
+
+      <article
+        class="card certificate"
+        data-category="gestao"
+      >
+
+        <div class="institution">
+          Anhanguera
+        </div>
+
+        <h3>
+          Liderança e Gestão de Equipes de Alta Performance
+        </h3>
+
+        <p>
+          Liderança, gestão de pessoas e desenvolvimento
+          de equipes de alta performance.
+        </p>
+
+        <span class="status">
+          Concluído
+        </span>
+
+        <a
+          href="#"
+          class="certificate-link"
+        >
+          Ver certificado →
+        </a>
+
+      </article>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- =====================================================
+     COMPETÊNCIAS
+===================================================== -->
+
+<section id="competencias">
+  <div class="container">
+
+    <div class="section-label">Skills</div>
+
+    <h2 class="section-title">
+      Competências
+    </h2>
+
+    <p class="section-description">
+      Conhecimentos desenvolvidos através da experiência
+      profissional, projetos e formação acadêmica.
+    </p>
+
+    <div class="skills">
+
+      <span class="skill">Supply Chain</span>
+      <span class="skill">Logística</span>
+      <span class="skill">Transportes</span>
+      <span class="skill">TMS</span>
+      <span class="skill">CT-e</span>
+      <span class="skill">MDF-e</span>
+      <span class="skill">CIOT</span>
+      <span class="skill">Frete mínimo</span>
+      <span class="skill">Power BI</span>
+      <span class="skill">Excel</span>
+      <span class="skill">SQL</span>
+      <span class="skill">Python</span>
+      <span class="skill">JavaScript</span>
+      <span class="skill">Next.js</span>
+      <span class="skill">Supabase</span>
+      <span class="skill">PostgreSQL</span>
+      <span class="skill">APIs</span>
+      <span class="skill">Webhooks</span>
+      <span class="skill">n8n</span>
+      <span class="skill">Inteligência Artificial</span>
+      <span class="skill">Machine Learning</span>
+      <span class="skill">Automação</span>
+      <span class="skill">KPIs</span>
+      <span class="skill">Gestão de Projetos</span>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- =====================================================
+     CONTATO
+===================================================== -->
+
+<section id="contato">
+  <div class="container">
+
+    <div class="contact-box">
+
+      <h2>
+        Vamos conversar?
+      </h2>
+
+      <p>
+        Logística • Supply Chain • Dados • Tecnologia
+      </p>
+
+      <div class="hero-buttons" style="justify-content:center">
+
+        <!-- TROCAR LINK -->
+
+        <a
+          href="https://www.linkedin.com/"
+          target="_blank"
+          class="button button-secondary"
+        >
+          LinkedIn
+        </a>
+
+        <a
+          href="https://github.com/wigorp"
+          target="_blank"
+          class="button button-secondary"
+        >
+          GitHub
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+  <div class="container">
+
+    © <span id="year"></span>
+    Wigor Pires.
+
+    Desenvolvido com foco em
+    Logística, Dados e Tecnologia.
+
+  </div>
+
+</footer>
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+  /* ANO AUTOMÁTICO */
+
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+
+  /* TEMA ESCURO */
+
+  function toggleTheme() {
+
+    document.body.classList.toggle("dark");
+
+    const dark =
+      document.body.classList.contains("dark");
+
+    localStorage.setItem(
+      "portfolio-theme",
+      dark ? "dark" : "light"
+    );
+
+  }
+
+
+  /* CARREGA TEMA SALVO */
+
+  if (
+    localStorage.getItem("portfolio-theme") === "dark"
+  ) {
+
+    document.body.classList.add("dark");
+
+  }
+
+
+  /* FILTRO DE CERTIFICADOS */
+
+  function filterCertificates(category, button) {
+
+    const certificates =
+      document.querySelectorAll(".certificate");
+
+    const buttons =
+      document.querySelectorAll(".filter");
+
+
+    buttons.forEach(btn =>
+      btn.classList.remove("active")
+    );
+
+
+    button.classList.add("active");
+
+
+    certificates.forEach(cert => {
+
+      const categories =
+        cert.dataset.category || "";
+
+
+      if (
+        category === "all" ||
+        categories.includes(category)
+      ) {
+
+        cert.style.display = "block";
+
       } else {
-        localStorage.setItem('tema', 'light');
-        moonIcon.style.display = 'block';
-        sunIcon.style.display = 'none';
-        sunRays.style.display = 'none';
+
+        cert.style.display = "none";
+
       }
+
     });
 
-    aplicarTemaSalvo();
+  }
 
-    function filtrar(classe) {
-      const cards = document.querySelectorAll(".course-card");
-      const container = document.getElementById("courseContainer");
-      const mensagem = document.getElementById("mensagemInicial");
+</script>
 
-      const existingTitle = document.getElementById("titulo-projetos");
-      if (existingTitle) existingTitle.remove();
-
-      if (mensagem) mensagem.style.display = 'none';
-
-      cards.forEach(card => card.style.display = "none");
-
-      if (classe === "todos") {
-        let inserted = false;
-        cards.forEach(card => {
-          card.style.display = "block";
-          if (card.classList.contains("projeto") && !inserted) {
-            const titulo = document.createElement("div");
-            titulo.className = "projetos-titulo";
-            titulo.id = "titulo-projetos";
-            titulo.textContent = "PROJETOS";
-            container.insertBefore(titulo, card);
-            inserted = true;
-          }
-        });
-      } else {
-        cards.forEach(card => {
-          if (card.classList.contains(classe)) {
-            card.style.display = "block";
-          }
-        });
-      }
-    }
-  </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
