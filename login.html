@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+
+  <title>Área Acadêmica | Wigor Pires de Araújo</title>
+
+  <link rel="stylesheet" href="academico.css">
+
+  <style>
+    body {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+    }
+
+    /* ---------- Painel lateral ---------- */
+
+    .side {
+      position: relative;
+      overflow: hidden;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      padding: 40px 48px;
+
+      background:
+        radial-gradient(circle at 15% 15%, rgba(255, 255, 255, .16), transparent 40%),
+        linear-gradient(145deg, #1d4ed8 0%, #2563eb 45%, #0f172a 100%);
+      color: #fff;
+    }
+
+    .side::after {
+      content: "";
+      position: absolute;
+      right: -120px;
+      bottom: -120px;
+
+      width: 380px;
+      height: 380px;
+
+      border: 60px solid rgba(255, 255, 255, .06);
+      border-radius: 50%;
+    }
+
+    .side .logo {
+      font-size: 1.35rem;
+      font-weight: 850;
+      letter-spacing: -.5px;
+    }
+
+    .side .logo span {
+      color: #93c5fd;
+    }
+
+    .side-content {
+      position: relative;
+      z-index: 1;
+      max-width: 460px;
+    }
+
+    .side-content .badge {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 6px 12px;
+
+      background: rgba(255, 255, 255, .14);
+      border: 1px solid rgba(255, 255, 255, .25);
+      border-radius: 999px;
+
+      font-size: .8rem;
+      font-weight: 700;
+    }
+
+    .side-content h1 {
+      font-size: clamp(2rem, 3.2vw, 2.8rem);
+      line-height: 1.12;
+      letter-spacing: -1.2px;
+      margin-bottom: 16px;
+    }
+
+    .side-content p {
+      color: rgba(255, 255, 255, .82);
+      font-size: 1.02rem;
+    }
+
+    .side-list {
+      list-style: none;
+      margin-top: 28px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .side-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255, 255, 255, .9);
+      font-size: .95rem;
+    }
+
+    .side-list li::before {
+      content: "✓";
+      display: grid;
+      place-items: center;
+
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+
+      background: rgba(255, 255, 255, .16);
+      border-radius: 50%;
+
+      font-size: .75rem;
+      font-weight: 800;
+    }
+
+    .side-footer {
+      position: relative;
+      z-index: 1;
+      font-size: .82rem;
+      color: rgba(255, 255, 255, .65);
+    }
+
+    /* ---------- Formulário ---------- */
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      padding: 28px 32px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+
+      color: var(--text-secondary);
+      font-size: .9rem;
+      font-weight: 650;
+    }
+
+    .back-link:hover {
+      color: var(--primary);
+    }
+
+    .form-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 0;
+    }
+
+    .card {
+      width: min(420px, 100%);
+      padding: 36px 32px;
+
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .card-icon {
+      display: grid;
+      place-items: center;
+
+      width: 52px;
+      height: 52px;
+      margin-bottom: 18px;
+
+      background: var(--primary-light);
+      border-radius: 14px;
+
+      font-size: 1.5rem;
+    }
+
+    .card h2 {
+      font-size: 1.55rem;
+      letter-spacing: -.6px;
+      line-height: 1.2;
+    }
+
+    .card .subtitle {
+      margin: 6px 0 24px;
+      color: var(--text-secondary);
+      font-size: .93rem;
+    }
+
+    .row-between {
+      display: flex;
+      justify-content: flex-end;
+      margin: -6px 0 20px;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    .hint {
+      margin-top: 20px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: .82rem;
+    }
+
+    /* ---------- Responsivo ---------- */
+
+    @media (max-width: 900px) {
+      body {
+        grid-template-columns: 1fr;
+      }
+
+      .side {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main {
+        padding: 20px 16px;
+      }
+
+      .card {
+        padding: 28px 20px;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+<!-- =========================================================
+     PAINEL LATERAL
+========================================================= -->
+
+<aside class="side">
+
+  <a href="index.html" class="logo">
+    Wigor<span>.</span>
+  </a>
+
+  <div class="side-content">
+
+    <span class="badge">🎓 Área acadêmica</span>
+
+    <h1>Pós-graduações, em um só lugar.</h1>
+
+    <p>
+      Acompanhamento das especializações e MBAs:
+      andamento, materiais, anotações e certificados.
+    </p>
+
+    <ul class="side-list">
+      <li>Progresso de cada curso</li>
+      <li>Materiais e links organizados</li>
+      <li>Acesso restrito e protegido</li>
+    </ul>
+
+  </div>
+
+  <div class="side-footer">
+    © <span id="year"></span> Wigor Pires de Araújo
+  </div>
+
+</aside>
+
+
+<!-- =========================================================
+     FORMULÁRIO
+========================================================= -->
+
+<main class="main">
+
+  <div class="topbar">
+
+    <a href="index.html" class="back-link">
+      ← Voltar ao portfólio
+    </a>
+
+    <button
+      class="theme-button"
+      type="button"
+      onclick="toggleTheme()"
+      title="Alternar tema"
+      aria-label="Alternar tema claro e escuro"
+    >
+      ◐
+    </button>
+
+  </div>
+
+
+  <div class="form-wrap">
+
+    <div class="card">
+
+      <div id="alert" class="alert" role="alert" aria-live="polite"></div>
+
+
+      <!-- LOGIN -->
+
+      <section id="view-login" class="view active">
+
+        <div class="card-icon">🔐</div>
+
+        <h2>Entrar</h2>
+
+        <p class="subtitle">
+          Acesse o painel das pós-graduações.
+        </p>
+
+        <form id="form-login" novalidate>
+
+          <div class="field">
+            <label for="email">E-mail</label>
+            <input
+              id="email"
+              type="email"
+              autocomplete="email"
+              placeholder="seu@email.com"
+              required
+            >
+          </div>
+
+          <div class="field">
+            <label for="password">Senha</label>
+            <div class="input-wrap">
+              <input
+                id="password"
+                type="password"
+                autocomplete="current-password"
+                placeholder="••••••••"
+                required
+              >
+              <button
+                type="button"
+                class="toggle-password"
+                data-target="password"
+                aria-label="Mostrar senha"
+              >👁</button>
+            </div>
+          </div>
+
+          <div class="row-between">
+            <button
+              type="button"
+              class="link-button"
+              onclick="showView('forgot')"
+            >
+              Esqueci minha senha
+            </button>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">
+            Entrar
+          </button>
+
+        </form>
+
+        <p class="hint">
+          Acesso restrito. Não há cadastro público.
+        </p>
+
+      </section>
+
+
+      <!-- ESQUECI A SENHA -->
+
+      <section id="view-forgot" class="view">
+
+        <div class="card-icon">✉️</div>
+
+        <h2>Recuperar senha</h2>
+
+        <p class="subtitle">
+          Enviaremos um link para redefinir sua senha.
+        </p>
+
+        <form id="form-forgot" novalidate>
+
+          <div class="field">
+            <label for="forgot-email">E-mail</label>
+            <input
+              id="forgot-email"
+              type="email"
+              autocomplete="email"
+              placeholder="seu@email.com"
+              required
+            >
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">
+            Enviar link
+          </button>
+
+        </form>
+
+        <p class="hint">
+          <button
+            type="button"
+            class="link-button"
+            onclick="showView('login')"
+          >
+            ← Voltar para o login
+          </button>
+        </p>
+
+      </section>
+
+
+      <!-- NOVA SENHA (após clicar no link do e-mail) -->
+
+      <section id="view-reset" class="view">
+
+        <div class="card-icon">🔑</div>
+
+        <h2>Nova senha</h2>
+
+        <p class="subtitle">
+          Escolha uma nova senha com pelo menos 8 caracteres.
+        </p>
+
+        <form id="form-reset" novalidate>
+
+          <div class="field">
+            <label for="new-password">Nova senha</label>
+            <div class="input-wrap">
+              <input
+                id="new-password"
+                type="password"
+                autocomplete="new-password"
+                minlength="8"
+                required
+              >
+              <button
+                type="button"
+                class="toggle-password"
+                data-target="new-password"
+                aria-label="Mostrar senha"
+              >👁</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="confirm-password">Confirmar senha</label>
+            <input
+              id="confirm-password"
+              type="password"
+              autocomplete="new-password"
+              minlength="8"
+              required
+            >
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">
+            Salvar nova senha
+          </button>
+
+        </form>
+
+      </section>
+
+    </div>
+
+  </div>
+
+</main>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+
+<script>
+
+  const PANEL_URL = "area-academica.html";
+
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+
+  /* TEMA (compartilhado com o portfólio) */
+
+  function toggleTheme() {
+    document.body.classList.toggle("dark");
+
+    localStorage.setItem(
+      "portfolio-theme",
+      document.body.classList.contains("dark") ? "dark" : "light"
+    );
+  }
+
+  if (localStorage.getItem("portfolio-theme") === "dark") {
+    document.body.classList.add("dark");
+  }
+
+
+  /* VIEWS E ALERTAS */
+
+  const alertBox = document.getElementById("alert");
+
+  function showView(name) {
+    document.querySelectorAll(".view").forEach(v =>
+      v.classList.toggle("active", v.id === "view-" + name)
+    );
+
+    hideAlert();
+
+    const firstInput =
+      document.querySelector("#view-" + name + " input");
+
+    if (firstInput) firstInput.focus();
+  }
+
+  function showAlert(type, message) {
+    alertBox.className = "alert alert-" + type + " show";
+    alertBox.innerHTML = message;
+  }
+
+  function hideAlert() {
+    alertBox.className = "alert";
+    alertBox.textContent = "";
+  }
+
+  function setLoading(form, loading, label) {
+    const btn = form.querySelector("button[type=submit]");
+
+    if (loading) {
+      btn.dataset.label = btn.textContent.trim();
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> ' + label;
+    } else {
+      btn.disabled = false;
+      btn.textContent = btn.dataset.label || btn.textContent;
+    }
+  }
+
+  function translateError(error) {
+    const msg = (error && error.message || "").toLowerCase();
+
+    if (msg.includes("invalid login credentials"))
+      return "E-mail ou senha incorretos.";
+    if (msg.includes("email not confirmed"))
+      return "E-mail ainda não confirmado. Verifique sua caixa de entrada.";
+    if (msg.includes("rate limit") || msg.includes("too many"))
+      return "Muitas tentativas. Aguarde alguns minutos e tente novamente.";
+    if (msg.includes("should be different"))
+      return "A nova senha deve ser diferente da atual.";
+    if (msg.includes("password should be at least"))
+      return "A senha é muito curta.";
+    if (msg.includes("failed to fetch") || msg.includes("network"))
+      return "Falha de conexão. Verifique sua internet.";
+
+    return "Não foi possível concluir. Tente novamente.";
+  }
+
+  const isEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+
+  /* MOSTRAR / OCULTAR SENHA */
+
+  document.querySelectorAll(".toggle-password").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const input = document.getElementById(btn.dataset.target);
+      const show = input.type === "password";
+
+      input.type = show ? "text" : "password";
+      btn.textContent = show ? "🙈" : "👁";
+      btn.setAttribute("aria-label", show ? "Ocultar senha" : "Mostrar senha");
+    });
+  });
+
+
+  /* SUPABASE */
+
+  const sb = window.getSupabase();
+
+  if (!sb) {
+    showAlert(
+      "warning",
+      "Login ainda não configurado: preencha a URL e a anon key " +
+      "em <code>supabase-config.js</code>."
+    );
+
+    document
+      .querySelectorAll("form button[type=submit]")
+      .forEach(b => (b.disabled = true));
+  } else {
+    init();
+  }
+
+
+  async function init() {
+
+    // Link de recuperação de senha: o Supabase dispara PASSWORD_RECOVERY
+    const isRecovery = /type=recovery/.test(location.hash);
+
+    sb.auth.onAuthStateChange(event => {
+      if (event === "PASSWORD_RECOVERY") {
+        showView("reset");
+      }
+    });
+
+    if (isRecovery) {
+      showView("reset");
+      return;
+    }
+
+    // Já está logado? Vai direto para o painel
+    const { data } = await sb.auth.getSession();
+
+    if (data.session) {
+      location.replace(PANEL_URL);
+    }
+  }
+
+
+  /* LOGIN */
+
+  document.getElementById("form-login").addEventListener("submit", async e => {
+    e.preventDefault();
+    if (!sb) return;
+
+    const form = e.currentTarget;
+    const email = form.email.value.trim();
+    const password = form.password.value;
+
+    if (!isEmail(email) || !password) {
+      showAlert("error", "Informe um e-mail válido e a senha.");
+      return;
+    }
+
+    hideAlert();
+    setLoading(form, true, "Entrando...");
+
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      setLoading(form, false);
+      showAlert("error", translateError(error));
+      form.password.select();
+      return;
+    }
+
+    location.replace(PANEL_URL);
+  });
+
+
+  /* ESQUECI A SENHA */
+
+  document.getElementById("form-forgot").addEventListener("submit", async e => {
+    e.preventDefault();
+    if (!sb) return;
+
+    const form = e.currentTarget;
+    const email = form["forgot-email"].value.trim();
+
+    if (!isEmail(email)) {
+      showAlert("error", "Informe um e-mail válido.");
+      return;
+    }
+
+    hideAlert();
+    setLoading(form, true, "Enviando...");
+
+    const redirectTo =
+      location.origin + location.pathname;
+
+    const { error } =
+      await sb.auth.resetPasswordForEmail(email, { redirectTo });
+
+    setLoading(form, false);
+
+    if (error) {
+      showAlert("error", translateError(error));
+      return;
+    }
+
+    // Mensagem neutra: não revela se o e-mail existe
+    showAlert(
+      "success",
+      "Se este e-mail tiver acesso, você receberá um link em instantes."
+    );
+  });
+
+
+  /* NOVA SENHA */
+
+  document.getElementById("form-reset").addEventListener("submit", async e => {
+    e.preventDefault();
+    if (!sb) return;
+
+    const form = e.currentTarget;
+    const password = form["new-password"].value;
+    const confirm = form["confirm-password"].value;
+
+    if (password.length < 8) {
+      showAlert("error", "A senha deve ter pelo menos 8 caracteres.");
+      return;
+    }
+
+    if (password !== confirm) {
+      showAlert("error", "As senhas não coincidem.");
+      return;
+    }
+
+    hideAlert();
+    setLoading(form, true, "Salvando...");
+
+    const { error } = await sb.auth.updateUser({ password });
+
+    if (error) {
+      setLoading(form, false);
+      showAlert("error", translateError(error));
+      return;
+    }
+
+    history.replaceState(null, "", location.pathname);
+    showAlert("success", "Senha atualizada! Redirecionando...");
+    setTimeout(() => location.replace(PANEL_URL), 1200);
+  });
+
+</script>
+
+</body>
+</html>
