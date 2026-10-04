@@ -905,6 +905,22 @@ body.dark header {
   letter-spacing: -.3px;
 }
 
+.course-link:hover {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.course-link::after {
+  content: " ↗";
+  font-size: .8em;
+  color: var(--primary);
+}
+
+.btn-study {
+  align-self: flex-start;
+}
+
 .course p {
   color: var(--text-secondary);
   font-size: .9rem;

@@ -15,6 +15,21 @@ const TIPOS = {
   graduacao: "Graduações"
 };
 
+// Plataforma de estudo usada quando o curso não tem "linkEstudo" próprio
+const PLATAFORMAS_PADRAO = {
+  "mba em gestão de projetos":
+    "https://kroton.platosedu.io/v2/lms/aluno/disciplina/30180618",
+  "gestão de projetos, jornada do cliente e metodologias ágeis":
+    "https://pucprdigital.grupoa.education/plataforma/my-enrollments/courses?categoryIds=965&courseStatus=all",
+  "engenharia de software":
+    "https://alunodigital.anhanguera.com/ead_anhanguera?id=pua_index"
+};
+
+function linkEstudo(c) {
+  return urlSegura(c.linkEstudo || "") ||
+    urlSegura(PLATAFORMAS_PADRAO[(c.titulo || "").trim().toLowerCase()] || "");
+}
+
 const ASSINATURAS = [
   { tipo: "application/pdf", ext: "pdf", teste: b => b[0] === 0x25 && b[1] === 0x50 && b[2] === 0x44 && b[3] === 0x46 },
   { tipo: "image/png", ext: "png", teste: b => b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47 },
@@ -152,6 +167,7 @@ function renderizarResumo() {
 function cartao(c) {
   const progresso = Math.max(0, Math.min(100, +c.progresso || 0));
   const status = STATUS[c.status] ? c.status : "cursando";
+  const estudo = linkEstudo(c);
 
   const datas = [
     c.inicio && "Início: " + formatarMes(c.inicio),
@@ -183,9 +199,16 @@ function cartao(c) {
         </span>
       </div>
 
-      <h3>${esc(c.titulo)}</h3>
+      <h3>${estudo
+        ? `<a class="course-link" href="${esc(estudo)}" target="_blank" rel="noopener noreferrer">${esc(c.titulo)}</a>`
+        : esc(c.titulo)}</h3>
 
       ${c.descricao ? `<p>${esc(c.descricao)}</p>` : ""}
+
+      ${estudo && status !== "concluido" ? `
+        <a class="btn btn-primary btn-sm btn-study" href="${esc(estudo)}" target="_blank" rel="noopener noreferrer">
+          ▶ Estudar agora
+        </a>` : ""}
 
       <div>
         <div class="progress-label"><span>Progresso</span><span>${progresso}%</span></div>
@@ -472,6 +495,7 @@ function abrirEdicao(curso) {
   f.descricao.value = c.descricao || "";
   f.links.value = (c.links || []).map(l => `${l.rotulo} | ${l.url}`).join("\n");
   f.anotacoes.value = c.anotacoes || "";
+  f.linkEstudo.value = c.linkEstudo || (curso ? linkEstudo(c) || "" : "");
   f.ordem.value = c.ordem ?? 0;
 
   const atual = $("#c-cert-atual");
@@ -559,6 +583,12 @@ formCurso.addEventListener("submit", async e => {
     return alertaDialogo(dlg, "error", err.message);
   }
 
+  const estudo = f.linkEstudo.value.trim();
+
+  if (estudo && !urlSegura(estudo)) {
+    return alertaDialogo(dlg, "error", "Link da plataforma de estudo inválido. Use um endereço começando com https://");
+  }
+
   const arquivo = f.arquivo.files[0];
 
   if (arquivo && arquivo.size > Cofre.CONFIG.tamanhoMaximo) {
@@ -587,6 +617,7 @@ formCurso.addEventListener("submit", async e => {
       conclusao: f.conclusao.value,
       descricao: f.descricao.value.trim(),
       links,
+      linkEstudo: estudo ? urlSegura(estudo) : "",
       anotacoes: f.anotacoes.value.trim(),
       ordem: Number.isFinite(+f.ordem.value) ? +f.ordem.value : 0
     });
