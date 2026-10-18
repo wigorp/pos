@@ -1227,3 +1227,50 @@ input[type=file]::file-selector-button {
     animation-duration: 0s !important;
   }
 }
+
+
+/* =========================================================
+   PROJETOS
+========================================================= */
+
+.projects {
+  margin-top: 40px;
+}
+
+.projects-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.projects-head .group-title {
+  margin: 0;
+}
+
+.projects .grid {
+  margin-top: 16px;
+}
+
+.project h3 {
+  margin: 0;
+}
+
+.prep-grid {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  margin-bottom: 0;
+}
+
+.prep-item h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.prep-feito {
+  opacity: .7;
+}
+
+.project .btn-study {
+  align-self: flex-start;
+}

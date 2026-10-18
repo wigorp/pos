@@ -30,6 +30,41 @@ function linkEstudo(c) {
     urlSegura(PLATAFORMAS_PADRAO[(c.titulo || "").trim().toLowerCase()] || "");
 }
 
+// Projetos da página antiga (removida em 03/10/2026). Valem até o primeiro "Salvar" de projetos;
+// depois a lista gravada no cofre é a que manda (mesmo vazia).
+const PROJETOS_PADRAO = [
+  { id: "pj-puc-minas-mobile", ordem: 10, titulo: "PUC MINAS - Desenvolvimento Mobile",
+    url: "https://www.pucminas.br/Pos-Graduacao/IEC/Cursos/Paginas/MobileEngineering_EAD_Especializacao%20e%20Master.aspx?pageID=5343&moda=5&polo=43&curso=1053&situ=1" },
+  { id: "pj-prompts-ia", ordem: 20, titulo: "Prompts para IA", url: "https://pay.hotmart.com/R98854503I" },
+  { id: "pj-escrita-cientifica", ordem: 30, titulo: "Cursos de Escrita Científica", url: "http://zucoescrita.com" },
+  { id: "pj-ufg-mestrado", ordem: 40, titulo: "UFG Mestrado - 01/07/2026", url: "https://ppgcc.inf.ufg.br/n/192120" },
+  { id: "pj-msai-ut-austin", ordem: 50, titulo: "Mestrado MSAI - UT Austin (online)",
+    url: "https://cdso.utexas.edu/msai",
+    descricao: "Master's in Artificial Intelligence, 100% online. 10 disciplinas (Ética em IA + 9 eletivas). Inscrições do outono: abrem 15/12, prioritário 15/03, final 15/04.",
+    preparacao: [
+      { titulo: "Inglês acadêmico", importancia: "Essencial", descricao: "Aulas, leituras, trabalhos e provas em inglês. TOEFL ou IELTS (confirmar a nota mínima no site)." },
+      { titulo: "Python", importancia: "Essencial", descricao: "Funções, classes, bibliotecas (NumPy, pandas) e programação orientada a objetos." },
+      { titulo: "Estruturas de dados e algoritmos", importancia: "Essencial", descricao: "Listas, árvores, grafos, recursão, complexidade e Big O." },
+      { titulo: "Matemática discreta", importancia: "Essencial", descricao: "Lógica, conjuntos, relações e combinatória." },
+      { titulo: "Álgebra linear", importancia: "Essencial", descricao: "Vetores, matrizes, autovalores e operações matriciais (ex.: MIT 18.06, gratuito)." },
+      { titulo: "Cálculo", importancia: "Muito importante", descricao: "Derivadas, gradientes, otimização e cálculo multivariável." },
+      { titulo: "Probabilidade e estatística", importancia: "Essencial", descricao: "Distribuições, inferência, Bayes e regressão." },
+      { titulo: "Introdução à mineração de dados", importancia: "Essencial", descricao: "Pré-requisito citado pela UT Austin." },
+      { titulo: "Machine Learning", importancia: "Essencial para acompanhar", descricao: "Classificação, regressão, redes neurais e avaliação de modelos." },
+      { titulo: "Documentos e candidatura", importancia: "Obrigatório", descricao: "Diploma de graduação (Engenharia de Software, 2027), histórico com GPA mínimo 3,0 na conversão e inscrição antes do prazo prioritário (15/03)." }
+    ] }
+];
+
+const IMPORTANCIA_CLASSE = {
+  "essencial": "tag-cursando",
+  "obrigatório": "tag-cursando",
+  "muito importante": "tag-trancado"
+};
+
+function projetos() {
+  return Array.isArray(estado.dados.projetos) ? estado.dados.projetos : PROJETOS_PADRAO;
+}
+
 const ASSINATURAS = [
   { tipo: "application/pdf", ext: "pdf", teste: b => b[0] === 0x25 && b[1] === 0x50 && b[2] === 0x44 && b[3] === 0x46 },
   { tipo: "image/png", ext: "png", teste: b => b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47 },
@@ -268,9 +303,39 @@ function renderizarLista() {
     .join("");
 }
 
+function cartaoProjeto(p) {
+  const url = urlSegura(p.url || "");
+  const prep = p.preparacao || [];
+  const feitos = prep.filter(i => i.feito).length;
+  return `
+    <article class="course project">
+      <h3>${url
+        ? `<a class="course-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(p.titulo)} ↗</a>`
+        : esc(p.titulo)}</h3>
+      ${p.descricao ? `<p>${esc(p.descricao)}</p>` : ""}
+      ${prep.length ? `
+        <button type="button" class="btn btn-primary btn-sm btn-study" data-action="ver-preparacao" data-id="${esc(p.id)}">
+          📚 Ver preparação (${feitos}/${prep.length} concluídos)
+        </button>` : ""}
+      ${estado.edicao ? `
+        <div class="course-actions">
+          <button type="button" class="btn btn-ghost btn-sm btn-block" data-action="editar-projeto" data-id="${esc(p.id)}">✏️ Editar projeto</button>
+        </div>` : ""}
+    </article>`;
+}
+
+function renderizarProjetos() {
+  const lista = ordenar(projetos());
+  $("#btn-new-project").hidden = !estado.edicao;
+  $("#projects-list").innerHTML = lista.length
+    ? lista.map(cartaoProjeto).join("")
+    : `<div class="empty"><strong>Nenhum projeto</strong>Ative “Gerenciar” para adicionar projetos.</div>`;
+}
+
 function renderizar() {
   renderizarResumo();
   renderizarLista();
+  renderizarProjetos();
 }
 
 
@@ -297,6 +362,7 @@ $("#btn-edit").addEventListener("click", () => {
   $("#btn-edit").setAttribute("aria-pressed", String(estado.edicao));
   $("#admin-bar").hidden = !estado.edicao;
   renderizarLista();
+  renderizarProjetos();
 });
 
 $("#theme").addEventListener("click", alternarTema);
@@ -429,11 +495,11 @@ async function exigirToken() {
 
 /* ---------- gravação ---------- */
 
-async function gravar(token, cursos, operacoes, mensagem, aoProgredir, nova) {
+async function gravar(token, cursos, operacoes, mensagem, aoProgredir, nova, listaProjetos) {
   const chave = nova ? nova.chave : estado.chave;
   const kdf = nova ? nova.kdf : estado.cofre.kdf;
 
-  const dados = { ...estado.dados, cursos };
+  const dados = { ...estado.dados, cursos, ...(listaProjetos ? { projetos: listaProjetos } : {}) };
   const cofre = await Cofre.montarCofre(chave, kdf, dados);
 
   const manifesto = ordenar(cursos)
@@ -749,6 +815,150 @@ $("#c-excluir").addEventListener("click", async () => {
     carregando(btn, false);
     tratarErroGravacao(dlg, err);
   }
+});
+
+
+/* ---------- projetos ---------- */
+
+const formProjeto = $("#form-project");
+let projetoEditando = null;
+
+function abrirProjeto(projeto) {
+  const dlg = $("#dlg-project");
+  const f = formProjeto;
+  projetoEditando = projeto ? projeto.id : null;
+  alertaDialogo(dlg, null, null);
+  f.reset();
+  $("#dlg-project-title").textContent = projeto ? "Editar projeto" : "Novo projeto";
+  f.titulo.value = projeto ? projeto.titulo : "";
+  f.url.value = projeto ? projeto.url : "";
+  f.descricao.value = projeto ? projeto.descricao || "" : "";
+  f.preparacao.value = projeto ? preparacaoParaTexto(projeto.preparacao) : "";
+  f.ordem.value = projeto
+    ? projeto.ordem ?? 0
+    : Math.max(0, ...projetos().map(x => x.ordem || 0)) + 10;
+  $("#pj-excluir").hidden = !projeto;
+  dlg.showModal();
+  f.titulo.focus();
+}
+
+$("#btn-new-project").addEventListener("click", () => abrirProjeto(null));
+
+$("#projects-list").addEventListener("click", e => {
+  const btn = e.target.closest("[data-action]");
+  if (!btn) return;
+  const projeto = projetos().find(p => p.id === btn.dataset.id);
+  if (!projeto) return;
+  if (btn.dataset.action === "editar-projeto") abrirProjeto(projeto);
+  if (btn.dataset.action === "ver-preparacao") abrirPreparacao(projeto);
+});
+
+function abrirPreparacao(projeto) {
+  const prep = projeto.preparacao || [];
+  const feitos = prep.filter(i => i.feito).length;
+  $("#dlg-prep-title").textContent = projeto.titulo;
+  $("#prep-resumo").textContent =
+    `${feitos} de ${prep.length} itens concluídos. Para marcar ou editar, use ✏️ Gerenciar → Editar projeto.`;
+  $("#prep-list").innerHTML = prep.map((item, i) => {
+    const classe = IMPORTANCIA_CLASSE[(item.importancia || "").trim().toLowerCase()] || "tag-concluido";
+    return `
+      <article class="course prep-item${item.feito ? " prep-feito" : ""}">
+        <div class="course-top">
+          <span class="institution">${i + 1}. ${item.feito ? "✓ Concluído" : "A estudar"}</span>
+          ${item.importancia ? `<span class="tag ${classe}">${esc(item.importancia)}</span>` : ""}
+        </div>
+        <h3>${esc(item.titulo)}</h3>
+        ${item.descricao ? `<p>${esc(item.descricao)}</p>` : ""}
+      </article>`;
+  }).join("");
+  $("#dlg-prep").showModal();
+}
+
+/* Formato do campo de texto: uma linha por item, "[x] Título | descrição | importância". */
+function preparacaoParaTexto(prep) {
+  return (prep || [])
+    .map(i => `${i.feito ? "[x] " : ""}${i.titulo} | ${i.descricao || ""} | ${i.importancia || ""}`)
+    .join("\n");
+}
+
+function lerPreparacao(texto) {
+  return texto.split("\n").map(l => l.trim()).filter(Boolean).slice(0, 40).map(linha => {
+    const feito = /^\[x\]\s*/i.test(linha);
+    const [titulo, descricao = "", importancia = ""] = linha
+      .replace(/^\[x\]\s*/i, "")
+      .split("|")
+      .map(x => x.trim());
+    if (!titulo) throw new Error("Cada linha da preparação precisa de um título.");
+    return {
+      titulo: titulo.slice(0, 80),
+      descricao: descricao.slice(0, 300),
+      importancia: importancia.slice(0, 40),
+      ...(feito ? { feito: true } : {})
+    };
+  });
+}
+
+async function gravarProjetos(dlg, btn, lista, mensagem, aviso) {
+  const token = await exigirToken();
+  if (!token) return;
+  carregando(btn, true, "Salvando...");
+  try {
+    await gravar(token, estado.dados.cursos, [], mensagem, msg => carregando(btn, true, msg), null, lista);
+    carregando(btn, false);
+    dlg.close();
+    toast(aviso);
+  } catch (err) {
+    carregando(btn, false);
+    tratarErroGravacao(dlg, err);
+  }
+}
+
+formProjeto.addEventListener("submit", async e => {
+  e.preventDefault();
+  const dlg = $("#dlg-project");
+  const f = formProjeto;
+  const titulo = f.titulo.value.trim();
+  const url = urlSegura(f.url.value.trim());
+
+  if (!titulo) return alertaDialogo(dlg, "error", "Preencha o nome do projeto.");
+  if (!url) return alertaDialogo(dlg, "error", "Link inválido. Use um endereço começando com https://");
+  let preparacao;
+  try {
+    preparacao = lerPreparacao(f.preparacao.value);
+  } catch (err) {
+    return alertaDialogo(dlg, "error", err.message);
+  }
+  alertaDialogo(dlg, null, null);
+
+  const projeto = {
+    id: projetoEditando || "pj-" + Cofre.idAleatorio(),
+    titulo: titulo.slice(0, 120),
+    url,
+    descricao: f.descricao.value.trim().slice(0, 300),
+    ...(preparacao.length ? { preparacao } : {}),
+    ordem: Number.isFinite(+f.ordem.value) ? +f.ordem.value : 0
+  };
+  const atual = projetos();
+  const lista = projetoEditando
+    ? atual.map(p => (p.id === projetoEditando ? projeto : p))
+    : [...atual, projeto];
+
+  await gravarProjetos(
+    dlg, f.querySelector("button[type=submit]"), lista,
+    `Área acadêmica: ${projetoEditando ? "atualiza" : "adiciona"} projeto "${titulo}"`,
+    "Projeto salvo e publicado!"
+  );
+});
+
+$("#pj-excluir").addEventListener("click", async () => {
+  const dlg = $("#dlg-project");
+  const projeto = projetos().find(p => p.id === projetoEditando);
+  if (!projeto || !confirm(`Excluir o projeto "${projeto.titulo}"?`)) return;
+  await gravarProjetos(
+    dlg, $("#pj-excluir"), projetos().filter(p => p.id !== projeto.id),
+    `Área acadêmica: remove projeto "${projeto.titulo}"`,
+    "Projeto excluído."
+  );
 });
 
 

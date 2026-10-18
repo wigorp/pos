@@ -153,6 +153,15 @@
 
   <div id="list" aria-live="polite"></div>
 
+
+  <section id="projects" class="projects" aria-labelledby="projects-title">
+    <div class="projects-head">
+      <h2 id="projects-title" class="group-title">Projetos</h2>
+      <button id="btn-new-project" class="btn btn-primary btn-sm" type="button" hidden>+ Novo projeto</button>
+    </div>
+    <div id="projects-list" class="grid" aria-live="polite"></div>
+  </section>
+
 </main>
 
 </div>
@@ -300,6 +309,82 @@
 
   </form>
 
+</dialog>
+
+
+<!-- =========================================================
+     DIÁLOGO: PROJETO
+========================================================= -->
+
+<dialog id="dlg-project" class="small" aria-labelledby="dlg-project-title">
+
+  <form id="form-project" novalidate>
+
+    <div class="dialog-head">
+      <h2 id="dlg-project-title">Novo projeto</h2>
+      <button type="button" class="dialog-close" data-close aria-label="Fechar">✕</button>
+    </div>
+
+    <div class="dialog-body">
+
+      <div class="alert" data-alert role="alert"></div>
+
+      <div class="field">
+        <label for="pj-titulo">Nome do projeto</label>
+        <input id="pj-titulo" name="titulo" required maxlength="120">
+      </div>
+
+      <div class="field">
+        <label for="pj-url">Link</label>
+        <input id="pj-url" name="url" type="url" required spellcheck="false" placeholder="https://...">
+      </div>
+
+      <div class="field">
+        <label for="pj-descricao">Descrição (opcional)</label>
+        <textarea id="pj-descricao" name="descricao" maxlength="300"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="pj-preparacao">Preparação (opcional, um item por linha: <code>Título | descrição | importância</code>)</label>
+        <textarea id="pj-preparacao" name="preparacao" rows="8" spellcheck="false" placeholder="Álgebra linear | Vetores e matrizes | Essencial"></textarea>
+        <small class="field-help">Comece a linha com <code>[x]</code> para marcar o item como concluído.</small>
+      </div>
+
+      <div class="field">
+        <label for="pj-ordem">Ordem de exibição</label>
+        <input id="pj-ordem" name="ordem" type="number" step="1">
+        <small class="field-help">Menor aparece primeiro.</small>
+      </div>
+
+    </div>
+
+    <div class="dialog-foot">
+      <button type="button" class="btn btn-danger btn-sm" id="pj-excluir">Excluir projeto</button>
+      <button type="button" class="btn btn-ghost btn-sm" data-close>Cancelar</button>
+      <button type="submit" class="btn btn-primary btn-sm">Salvar e publicar</button>
+    </div>
+
+  </form>
+
+</dialog>
+
+
+<!-- =========================================================
+     DIÁLOGO: PREPARAÇÃO DO PROJETO
+========================================================= -->
+
+<dialog id="dlg-prep" aria-labelledby="dlg-prep-title">
+  <div class="dialog-head">
+    <h2 id="dlg-prep-title">Preparação</h2>
+    <button type="button" class="dialog-close" data-close aria-label="Fechar">✕</button>
+  </div>
+  <div class="dialog-body">
+    <p id="prep-resumo" class="text-block"></p>
+    <div id="prep-list" class="grid prep-grid"></div>
+  </div>
+  <div class="dialog-foot">
+    <button type="button" class="btn btn-ghost btn-sm" data-close>Fechar</button>
+  </div>
 </dialog>
 
 
