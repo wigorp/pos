@@ -43,7 +43,7 @@ const PROJETOS_PADRAO = [
     descricao: "Cursos gratuitos com certificado. Fazer \"Listening em Inglês\" e \"Conversação em Inglês para Destravar a Fala\", junto com as aulas diárias do Jarvis no WhatsApp." },
   { id: "pj-roadmap-sh", ordem: 45, titulo: "roadmap.sh - trilhas de estudo (AI Engineer, Backend, System Design)", url: "https://roadmap.sh/",
     descricao: "Trilhas gratuitas para desenvolvedor, com projetos práticos. Seguir AI Engineer, Backend, System Design e Claude Code. Conteúdo em inglês: serve também de leitura." },
-  { id: "pj-msai-ut-austin", ordem: 50, titulo: "Mestrado MSAI - UT Austin (online)",
+  { id: "pj-msai-ut-austin", ordem: 50, destaque: true, titulo: "Mestrado MSAI - UT Austin (online)",
     url: "https://cdso.utexas.edu/msai",
     descricao: "Master's in Artificial Intelligence, 100% online. 10 disciplinas (Ética em IA + 9 eletivas). Inscrições do outono: abrem 15/12, prioritário 15/03, final 15/04.",
     preparacao: [
@@ -290,7 +290,16 @@ function renderizarLista() {
       (c.instituicao || "").toLowerCase().includes(termo))
   );
 
-  if (!lista.length) {
+  // Projetos marcados como destaque aparecem no topo enquanto a lista mostra o que está em andamento
+  const destaques = (status === "todos" || status === "cursando") && tipo === "todos"
+    ? ordenar(projetos()).filter(p => p.destaque && (!termo || p.titulo.toLowerCase().includes(termo)))
+    : [];
+  const topo = destaques.length
+    ? `<h2 class="group-title">Projetos em andamento</h2>
+       <div class="grid">${destaques.map(cartaoProjeto).join("")}</div>`
+    : "";
+
+  if (!lista.length && !topo) {
     $("#list").innerHTML = `
       <div class="grid"><div class="empty">
         <strong>Nada encontrado</strong>
@@ -299,7 +308,7 @@ function renderizarLista() {
     return;
   }
 
-  $("#list").innerHTML = Object.keys(TIPOS)
+  $("#list").innerHTML = topo + Object.keys(TIPOS)
     .map(t => {
       const grupo = lista.filter(c => (c.tipo || "pos") === t);
       if (!grupo.length) return "";
@@ -418,6 +427,7 @@ async function abrirCertificado(curso, baixar) {
 $("#list").addEventListener("click", e => {
   const btn = e.target.closest("[data-action]");
   if (!btn) return;
+  if (acaoDeProjeto(btn)) return;
 
   const curso = estado.dados.cursos.find(c => c.id === btn.dataset.id);
   if (!curso) return;
@@ -840,6 +850,7 @@ function abrirProjeto(projeto) {
   f.url.value = projeto ? projeto.url : "";
   f.descricao.value = projeto ? projeto.descricao || "" : "";
   f.preparacao.value = projeto ? preparacaoParaTexto(projeto.preparacao) : "";
+  f.destaque.checked = !!(projeto && projeto.destaque);
   f.ordem.value = projeto
     ? projeto.ordem ?? 0
     : Math.max(0, ...projetos().map(x => x.ordem || 0)) + 10;
@@ -850,13 +861,18 @@ function abrirProjeto(projeto) {
 
 $("#btn-new-project").addEventListener("click", () => abrirProjeto(null));
 
+// Trata os botões dos cartões de projeto; devolve true quando o botão era de projeto
+function acaoDeProjeto(btn) {
+  if (!["editar-projeto", "ver-preparacao"].includes(btn.dataset.action)) return false;
+  const projeto = projetos().find(p => p.id === btn.dataset.id);
+  if (projeto && btn.dataset.action === "editar-projeto") abrirProjeto(projeto);
+  if (projeto && btn.dataset.action === "ver-preparacao") abrirPreparacao(projeto);
+  return true;
+}
+
 $("#projects-list").addEventListener("click", e => {
   const btn = e.target.closest("[data-action]");
-  if (!btn) return;
-  const projeto = projetos().find(p => p.id === btn.dataset.id);
-  if (!projeto) return;
-  if (btn.dataset.action === "editar-projeto") abrirProjeto(projeto);
-  if (btn.dataset.action === "ver-preparacao") abrirPreparacao(projeto);
+  if (btn) acaoDeProjeto(btn);
 });
 
 function abrirPreparacao(projeto) {
@@ -942,6 +958,7 @@ formProjeto.addEventListener("submit", async e => {
     url,
     descricao: f.descricao.value.trim().slice(0, 300),
     ...(preparacao.length ? { preparacao } : {}),
+    ...(f.destaque.checked ? { destaque: true } : {}),
     ordem: Number.isFinite(+f.ordem.value) ? +f.ordem.value : 0
   };
   const atual = projetos();
