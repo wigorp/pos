@@ -10,9 +10,10 @@ const STATUS = {
   trancado: "Trancado"
 };
 
+// A ordem das chaves é a ordem dos grupos na tela
 const TIPOS = {
-  pos: "Pós-graduações e especializações",
-  graduacao: "Graduações"
+  graduacao: "Graduações",
+  pos: "Pós-graduações e especializações"
 };
 
 // Plataforma de estudo usada quando o curso não tem "linkEstudo" próprio
@@ -78,7 +79,8 @@ const estado = {
   dados: null,
   edicao: false,
   editando: null,
-  filtros: { status: "todos", tipo: "todos" }
+  // Ao entrar, a lista já abre no que está em andamento
+  filtros: { status: "cursando", tipo: "todos" }
 };
 
 const $ = sel => document.querySelector(sel);
